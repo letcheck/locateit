@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.send("server running");
+  res.send("{'Status' : 'ok', 'Msg' : 'Server running'}");
 };
