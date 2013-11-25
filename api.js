@@ -25,6 +25,14 @@ app.use(express.methodOverride());
 app.use(app.router);
 //app.use(express.static(path.join(__dirname, 'public')));
 
+//cross domain
+app.all('*', function(req, res, next) {
+	  res.header('Access-Control-Allow-Origin', '*');
+	  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+	  res.header('Access-Control-Allow-Headers', 'Content-Type');
+	  next();
+	});
+
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -38,6 +46,7 @@ mongoose.connect('mongodb://localhost/locateit');
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/media/add/:msg/:lat/:long', content.addMedia);
+app.get('/media/:number', content.getMedia);
 
 
 http.createServer(app).listen(app.get('port'), function(){
