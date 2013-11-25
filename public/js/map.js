@@ -47,9 +47,38 @@ function initialize() {
       handleNoGeolocation(false);
       
     }
+    
+    addMarkers();
 }
-function gofuckyourself()
+
+function addMarkers()
 {
-	alert("caca");
+	var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+	var marker = new google.maps.Marker({
+	      position: myLatlng,
+	      map: map,
+	      title: 'Hello World!'
+	  });
+	$.ajax({
+		type: "GET",
+		url: "http://127.0.0.1:5000/media/10",
+		dataType: 'html',
+		}).done(function(data)
+			{alert(""+data);
+				var mediaList = $.parseJSON( data );
+				$.each(mediaList, function(){
+					addMarker(this.latitude, this.longitude);
+				});		
+			});
+}
+
+function addMarker( lat, long)
+{
+	var latLong = new google.maps.LatLng(lat,long);
+	var marker = new google.maps.Marker({
+	      position: latLong,
+	      map: map,
+	      title: 'Hello World!'
+	  });
 }
 google.maps.event.addDomListener(window, 'load', initialize);

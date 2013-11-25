@@ -4,6 +4,7 @@
     <title><%= title %></title>
     <link href="/bootstrap/css/bootstrap-metro.css" rel="stylesheet" type="text/css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/jquery/jquery-2.0.3.min.js"></script>
   </head>
   <body>
 	<div class="navbar navbar-default navbar-fixed-top">
@@ -74,7 +75,7 @@
 		console.log('Sign-in state: ' + authResult['error']);
 	  }
 	}
-	$('.btn-group').button()
+	$('.btn-group').button();
 
 	$('#logout').on('click', function (e) {
 	 console.log("blabla");
