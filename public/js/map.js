@@ -4,7 +4,8 @@
  */
 
 var map;
-
+var openmarker = null;
+var infowindowopen = null;
 /*
  * handle the fact that the browser do not support geolocation
  */
@@ -97,13 +98,24 @@ function addMarker( lat, long, data)
 	  });
 	var imgurl = data.media[0].url;
 	var infowindow = new google.maps.InfoWindow({
-	      content: template_text.format(data.msg,imgurl),
+	      content: template_video.format(data.msg,imgurl),
 	      maxWidth: 600
 	  });
 	google.maps.event.addListener(marker, 'click', function() {
+		onlyOneInfoWindow(marker, infowindow);
 	    infowindow.open(map,marker);
 	  });
 
+}
+
+function onlyOneInfoWindow(marker, infowindow)
+{
+	if(openmarker != null && openmarker != marker)
+	{
+		infowindowopen.close();
+	}
+	openmarker = marker;
+	infowindowopen = infowindow;
 }
 //load the map
 google.maps.event.addDomListener(window, 'load', initialize);

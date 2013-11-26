@@ -12,6 +12,21 @@ String.prototype.format = String.prototype.f = function() {
 };
 
 var template_text = '<div id=info_window>'+
+	'<div>'+
+	'<blockquote>'+
 	'<p>{0}</p>'+
-	'<img src="{1}"/>'+
+	'<small>by Vincent kdfjdf</small>'+
+	'</blockquote>'+
+	'</div><div style="text-align:center;">'+
+	'<img src="{1}" style="max-width: 600px;"/></div>'+
 	'</div>';
+
+var template_video = '<div id=info_window>'+
+'<div>'+
+'<blockquote>'+
+'<p>{0}</p>'+
+'<small>by Vincent kdfjdf</small>'+
+'</blockquote>'+
+'</div><div style="text-align:center;">'+
+'<iframe width="560" height="315" src="//www.youtube.com/embed/{1}?rel=0" frameborder="0" allowfullscreen></iframe></div>'+
+'</div>';
