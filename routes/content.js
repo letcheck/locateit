@@ -3,6 +3,7 @@
  * - addMedia
  */
 var Content = require('../models/contentModel.js');
+var Media = require('../models/mediaModel.js');
 
 
 exports.index = function(req, res){
@@ -12,7 +13,9 @@ exports.index = function(req, res){
 exports.addMedia = function(req, res){
 	console.log('addMedia '+req.params.msg);
 	res.send("{Status : 'ok', Msg : 'Content added'}");
-	new Content({msg: req.params.msg, latitude : req.params.lat, longitude : req.params.long}).save();
+	var mediaH = new Media({type: "img", url: "http://127.0.0.1:5000/img/aurore.jpeg"});
+	new Content({msg: req.params.msg, latitude : req.params.lat, longitude : req.params.long, media: mediaH,
+		comment:{}}).save();
 };
 
 exports.getMedia = function(req, res){
