@@ -1,5 +1,13 @@
+/*
+ * Map.js 
+ * all the function for the map
+ */
 
 var map;
+
+/*
+ * handle the fact that the browser do not support geolocation
+ */
 function handleNoGeolocation(errorFlag) {
 	var content;
     if (errorFlag) {
@@ -18,6 +26,9 @@ function handleNoGeolocation(errorFlag) {
     map.setCenter(options.position);
 }
 
+/*
+ * create the map
+ */
 function initialize() {
 	
     var mapOptions = {
@@ -28,7 +39,7 @@ function initialize() {
     map = new google.maps.Map(document.getElementById("map-canvas"),
         mapOptions);
    
- // Try HTML5 geolocation
+    // Try HTML5 geolocation
     if(navigator.geolocation) 
     {
       navigator.geolocation.getCurrentPosition(function(position) 
@@ -51,34 +62,48 @@ function initialize() {
     addMarkers();
 }
 
+/*
+ * add marker showing the place of the different media 
+ */
 function addMarkers()
 {
 	var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
 	var marker = new google.maps.Marker({
 	      position: myLatlng,
-	      map: map,
-	      title: 'Hello World!'
+	      map: map
 	  });
 	$.ajax({
 		type: "GET",
 		url: "http://127.0.0.1:5000/media/10",
 		dataType: 'html',
 		}).done(function(data)
-			{alert(""+data);
+			{
 				var mediaList = $.parseJSON( data );
 				$.each(mediaList, function(){
-					addMarker(this.latitude, this.longitude);
+					addMarker(this.latitude, this.longitude, this);
 				});		
 			});
 }
 
-function addMarker( lat, long)
+/*
+ * add one marker to the given lat and long
+ */
+function addMarker( lat, long, data)
 {
 	var latLong = new google.maps.LatLng(lat,long);
 	var marker = new google.maps.Marker({
 	      position: latLong,
-	      map: map,
-	      title: 'Hello World!'
+	      map: map
 	  });
+	var imgurl = data.media[0].url;
+	var infowindow = new google.maps.InfoWindow({
+	      content: template_text.format(data.msg,imgurl),
+	      maxWidth: 600
+	  });
+	google.maps.event.addListener(marker, 'click', function() {
+	    infowindow.open(map,marker);
+	  });
+
 }
+//load the map
 google.maps.event.addDomListener(window, 'load', initialize);
