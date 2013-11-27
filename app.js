@@ -8,7 +8,8 @@ var express = require('express')
   , user = require('./routes/user')
   , poststh = require('./routes/post')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , gapi = require('./lib/gapi');
 
 var app = express();
 
@@ -31,6 +32,20 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/post', poststh.poststh);
+app.get('/login', function(req, res){
+	res.redirect(gapi.url);
+});
+app.get('/oauth2callback', function(req, res) {
+  var code = req.query.code;
+  gapi.client.getToken(code, function(err, tokens){
+    gapi.client.credentials = tokens;
+	gapi.plus.people.get({ userId: 'me' }).withAuthClient(gapi.client).execute(function(err, results){
+      console.log(results.displayName);
+	});
+  });
+  res.redirect('/');
+});
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

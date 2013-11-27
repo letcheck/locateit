@@ -27,62 +27,12 @@
 
           <ul class="nav navbar-nav navbar-right">
             
-			<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="login">
-			login
-			<b class="caret"></b>
-			</a>
-			<ul class="dropdown-menu">
-				<span id="signinButton">
-				  <span
-					class="g-signin"
-					data-callback="signinCallback"
-					data-clientid="942271616855.apps.googleusercontent.com"
-					data-cookiepolicy="single_host_origin"
-					data-requestvisibleactions="http://schemas.google.com/AddActivity"
-					data-scope="https://www.googleapis.com/auth/plus.login">
-				  </span>
-				</span>
-			</ul>
-			</li>
+			
+			<li><a href="login">Login</a></li>
 			<button type="button" class="btn btn-default navbar-btn" id="logout">Log out</button>
           </ul>
 
         </div>
       </div>
     </div>
-	
-    <!-- Place this asynchronous JavaScript just before your </body> tag -->
-    <script type="text/javascript">
-      (function() {
-       var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-       po.src = 'https://apis.google.com/js/client:plusone.js';
-       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-     })();
-	 
-	function signinCallback(authResult) {
-	  if (authResult['access_token']) {
-		// Update the app to reflect a signed in user
-		// Hide the sign-in button now that the user is authorized, for example:
-		document.getElementById('login').setAttribute('style', 'display: none');
-		console.log("blabla");
-	  } else if (authResult['error']) {
-		// Update the app to reflect a signed out user
-		// Possible error values:
-		//   "user_signed_out" - User is signed-out
-		//   "access_denied" - User denied access to your app
-		//   "immediate_failed" - Could not automatically log in the user
-		console.log('Sign-in state: ' + authResult['error']);
-	  }
-	}
-	//$('.btn-group').button();
-
-	$('#logout').on('click', function (e) {
-	 console.log("blabla");
-     gapi.auth.signOut();
-	 document.getElementById('logout').setAttribute('style', 'display: none');
-	})
-	 
-    </script>
-
     <div id="body">
