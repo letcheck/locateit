@@ -27,10 +27,12 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            
-			
-			<li><a href="login">Login</a></li>
-			<button type="button" class="btn btn-default navbar-btn" id="logout">Log out</button>
+			<%if (!login) { %>
+				<li><a href="login">Login</a></li>
+			<% } %>
+			<%if (login) { %>
+				<li><a href="logout">Logout</a></li>
+			<% } %>
           </ul>
 
         </div>
