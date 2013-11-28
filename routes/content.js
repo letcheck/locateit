@@ -18,11 +18,22 @@ exports.addMedia = function(req, res){
 		comment:{}}).save();
 };
 
-exports.getMedia = function(req, res){
+exports.getMedia = function(req, res){//req.query pour les chaine de get
 	Content.find(function(err, contents){
 		if(!err)
 			res.send(contents);
 		else
 			res.send('[{"Status" : "error", "msg" : "can find any media"}]');
 	});
+};
+exports.deleteMedia = function(req,res){
+	
+};
+
+exports.addComment = function(req,res){
+	
+};
+
+exports.getComment = function(req,res){
+	
 };

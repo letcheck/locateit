@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , content = require('./routes/content')
+  , follow = require('./routes/follow')
   , http = require('http')
   , path = require('path');
 
@@ -46,8 +47,18 @@ mongoose.connect('mongodb://localhost/locateit');
 //API REST
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.get('/media/add/:msg/:lat/:long', content.addMedia);
-app.get('/media/:number', content.getMedia);
+app.get('/media/add/:msg/:lat/:long', content.addMedia);//POST after and add picture and all the things
+app.get('/media/:number/', content.getMedia);//begin end lat long rayon in get query
+app.delete('/media/:id/:iduser/:password', content.deleteMedia);
+app.post('/comment/', content.addComment);//:idmedia/:msg/:iduser
+app.get('/comment/:idmedia/:nb/:start', content.getComment);
+app.get('/follow/all/:nb/:date?', follow.getFollow);
+app.get('/ollow/:id', follow.getFollowById);
+app.post('/follow', follow.addFollow);//iduser, lat, long , rayon 
+app.delete('/follow/:iduser/:idfollow', follow.deleteFollow);
+app.post('/users', user.add);
+app.delete('/users/', user.deleteUser);
+app.post('/users/update/:iduser/', user.updateUser);
 
 
 http.createServer(app).listen(app.get('port'), function(){
