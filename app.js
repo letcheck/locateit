@@ -21,6 +21,8 @@ app.set('view engine', 'ejs');
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+app.use(express.cookieParser());
+app.use(express.cookieSession({ secret: 'something'}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -40,10 +42,17 @@ app.get('/oauth2callback', function(req, res) {
   gapi.client.getToken(code, function(err, tokens){
     gapi.client.credentials = tokens;
 	gapi.plus.people.get({ userId: 'me' }).withAuthClient(gapi.client).execute(function(err, results){
-      console.log(results.displayName);
+	  req.session.login = true;
+	  req.session.name = results.displayName;
+	  res.redirect('/');
 	});
   });
-  res.redirect('/');
+});
+app.get('/logout', function(req, res){
+	gapi.client.revokeToken();
+	req.session.login = false;
+	req.session.name = "";
+	res.redirect('/');
 });
 
 
