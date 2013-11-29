@@ -102,20 +102,30 @@ function addMarker( lat, long, data)
 	      maxWidth: 600
 	  });
 	google.maps.event.addListener(marker, 'click', function() {
+		
+		if(infowindowopen != infowindow)
+			infowindow.open(map,marker);
 		onlyOneInfoWindow(marker, infowindow);
-	    infowindow.open(map,marker);
 	  });
 
 }
 
 function onlyOneInfoWindow(marker, infowindow)
 {
-	if(openmarker != null && openmarker != marker)
+	if(openmarker != null )
 	{
 		infowindowopen.close();
 	}
-	openmarker = marker;
-	infowindowopen = infowindow;
+	if(infowindow != infowindowopen)
+	{
+		openmarker = marker;
+		infowindowopen = infowindow;
+	}
+	else
+	{
+		openmarker = null;
+		infowindowopen = null;
+	}
 }
 //load the map
 google.maps.event.addDomListener(window, 'load', initialize);
