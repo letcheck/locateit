@@ -17,7 +17,7 @@
 					<strong>post /users</strong>
 				</div>
 				<div class="col-lg-8">
-					Create a new users, in get parameters who HAVE to add the name, the google id and the email.
+					Create a new users, in post parameters who HAVE to add the name, the google id and the email.
 				</div>
 			</div>
 			
@@ -26,7 +26,123 @@
 					<strong>delete /users</strong>
 				</div>
 				<div class="col-lg-8">
-					Delete a users, in get parameters who HAVE to add the id of the user and your id.
+					Delete a users, in delete parameters who HAVE to add the id of the user and your id.
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>post /users/update/:iduser/</strong>
+				</div>
+				<div class="col-lg-8">
+					Update a users, in post parameters who HAVE to add the the infomation you want to modify (ex: ?email=new@email.com).
+					The :iduser is the id of the user you want to update, don't forget to add your id has a post parameter.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-info">
+		<div class="panel-heading"><h2 class="panel-title">MEDIA</h2></div>
+		<div class="panel-body">
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>post /media/</strong>
+				</div>
+				<div class="col-lg-8">
+					Get contents, post parameters: msg, lat (latitude), long (longitude), urlpicture (optional), urlvideo(optional), file(optional), date(optional) 
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>get /media/:number</strong>
+				</div>
+				<div class="col-lg-8">
+					Post a new content, get parameters all optional : begin (date of beginning), end(date of end), lat(latitude), long(longitude), radius (in km).
+					Number mandatory, it's the number of content you want to get.
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>delete /media/:id/:iduser</strong>
+				</div>
+				<div class="col-lg-8">
+					Delete a content, all the parameter are mandatory, the id of the content, the id of the user
+				</div>
+			</div>
+		</div>
+	</div>
+		
+	<div class="panel panel-warning">
+		<div class="panel-heading"><h2 class="panel-title">COMMENT</h2></div>
+		<div class="panel-body">
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>post /comment</strong>
+				</div>
+				<div class="col-lg-8">
+					Post a comment, post parameter: id of the user (iduser), and the message (msg).
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>get /comment/:idmedia/:nb/:start</strong>
+				</div>
+				<div class="col-lg-8">
+					Get comment, url parameter : idmedia the id of the content, nb the number of comment wanted, start the the number of comment to start.
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>delete /comment/:idcomment/:iduser</strong>
+				</div>
+				<div class="col-lg-8">
+					Delete a comment, url parameter : idcomment the id of the comment, iduser the id of the user who want to delete the comment.
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-success">
+		<div class="panel-heading"><h2 class="panel-title">FOLLOW</h2></div>
+		<div class="panel-body">
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>get /follow/all/:iduser/:nb/:start/:date?</strong>
+				</div>
+				<div class="col-lg-8">
+					Get all the follow, url parameters : iduser the id of the user, nb the nb of follow wanted, start the nimber if start, date the date of creation of the follow (optional)
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>get /follow/:id</strong>
+				</div>
+				<div class="col-lg-8">
+					Get the follow, url parameters : id the id of the follow
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>post /follow</strong>
+				</div>
+				<div class="col-lg-8">
+					To be finish....
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>delete /follow/:iduser/:idfollow</strong>
+				</div>
+				<div class="col-lg-8">
+					Delete a follow, delete parameters : iduser id of the user, idfollow the id of the follow
 				</div>
 			</div>
 		</div>

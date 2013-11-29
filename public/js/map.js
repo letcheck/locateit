@@ -41,7 +41,7 @@ function initialize() {
         mapOptions);
    
     // Try HTML5 geolocation
-    if(navigator.geolocation) 
+    /*if(navigator.geolocation) 
     {
       navigator.geolocation.getCurrentPosition(function(position) 
     		  {
@@ -58,7 +58,7 @@ function initialize() {
       // Browser doesn't support Geolocation
       handleNoGeolocation(false);
       
-    }
+    }*/
     
     addMarkers();
 }
