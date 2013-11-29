@@ -50,9 +50,10 @@ app.get('/users', user.list);
 app.get('/media/add/:msg/:lat/:long', content.addMedia);//POST after and add picture and all the things
 app.get('/media/:number', content.getMedia);//begin end lat long rayon in get query
 app.delete('/media/:id/:iduser/:password', content.deleteMedia);
-app.post('/comment/', content.addComment);//:idmedia/:msg/:iduser
+app.post('/comment', content.addComment);//:idmedia/:msg/:iduser
 app.get('/comment/:idmedia/:nb/:start', content.getComment);
-app.get('/follow/all/:nb/:date?', follow.getFollow);
+app.delete('/comment/:idcomment/:iduser', content.deleteComment);
+app.get('/follow/all/:iduser/:nb/:start/:date?', follow.getFollow);
 app.get('/follow/:id', follow.getFollowById);
 app.post('/follow', follow.addFollow);//iduser, lat, long , rayon 
 app.delete('/follow/:iduser/:idfollow', follow.deleteFollow);

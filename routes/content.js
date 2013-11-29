@@ -37,3 +37,7 @@ exports.addComment = function(req,res){
 exports.getComment = function(req,res){
 	
 };
+
+exports.deleteComment = function(req,res){
+	
+};
