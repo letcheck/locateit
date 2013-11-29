@@ -1,0 +1,36 @@
+<% include header.ejs %>
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading"><h2 class="panel-title">USERS</h2></div>
+		<div class="panel-body">
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>get /users?nb={nb user}&id={user id}</strong>
+				</div>
+				<div class="col-lg-8">
+					list the users, in get parameters who can add the number of user who want or the id of the user
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>post /users</strong>
+				</div>
+				<div class="col-lg-8">
+					Create a new users, in get parameters who HAVE to add the name, the google id and the email.
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>delete /users</strong>
+				</div>
+				<div class="col-lg-8">
+					Delete a users, in get parameters who HAVE to add the id of the user and your id.
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% include footer.ejs %>

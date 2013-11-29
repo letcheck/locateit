@@ -9,7 +9,7 @@ exports.index = function(req, res){
 };
 
 exports.api = function(req, res){
-	res.render('api', {title : 'Locate It API'});
+	res.render('api', {title : 'Locate It API', login: req.session.login });
 };
 
 

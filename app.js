@@ -34,6 +34,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/post', poststh.poststh);
+app.get('/api', routes.api);
 app.get('/login', function(req, res){
 	res.redirect(gapi.url);
 });

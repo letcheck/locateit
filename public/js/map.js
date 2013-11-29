@@ -98,7 +98,7 @@ function addMarker( lat, long, data)
 	  });
 	var imgurl = data.media[0].url;
 	var infowindow = new google.maps.InfoWindow({
-	      content: template_video.format(data.msg,imgurl),
+	      content: template_text.format(data.msg,imgurl),
 	      maxWidth: 600
 	  });
 	google.maps.event.addListener(marker, 'click', function() {
