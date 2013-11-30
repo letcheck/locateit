@@ -75,7 +75,7 @@ function addMarkers()
 	  });
 	$.ajax({
 		type: "GET",
-		url: "http://127.0.0.1:5000/media/10",
+		url: api_server_address+"/media/10",
 		dataType: 'html',
 		}).done(function(data)
 			{
