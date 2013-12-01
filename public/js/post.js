@@ -106,8 +106,9 @@ $(document)
 .on('change', '.btn-file :file', function() {
     var input = $(this),
         numFiles = input.get(0).files ? input.get(0).files.length : 1,
-        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.trigger('fileselect', [numFiles, label]);
+        value = input.val(),
+        label = value.replace(/\\/g, '/').replace(/.*\//, '');
+    //input.trigger('fileselect', [numFiles, label]);
     $("#showfile").val(label);
 });
 
@@ -124,7 +125,9 @@ $(document).ready(function(){
 	$("#error").hide();
 });
 
-
+/*
+ * check the data to be correct then send the data
+ */
 function checkAndSend()
 {
 	$("#error").hide();
@@ -134,20 +137,85 @@ function checkAndSend()
 		error("You must provide a media content! A picture via url, via upload or a youtube link");
 	else
 	{
-		/*$.ajax({
-			type: "POST",
-			url: api_server_address+"/media",
-			dataType: 'html',
-			data: {msg : $("#msg").val(), lat: marker.position.latitude, long: marker.position.longitude, date: $("#date").val(), urlpicture: $("#picture").val(), urlvideo: $("#video").val()}
-			}).done(function(data)
-				{
-					var mediaList = $.parseJSON( data );
-					$.each(mediaList, function(){
-						addMarker(this.latitude, this.longitude, this);
-					});		
-				});*/
-		alert($("#msg").val()+" "+marker.getPosition.lat()+" "+marker.getPosition.lng()+" "+$("#date").val()+" "+$("#picture").val()+" "+$("#video").val());
+		var go = true;
+		//if the user want to upload a picture
+		if($("#showfile").val())
+		{
+			var file = $(".btn-file :file").prop("files")[0];
+	        name = file.name;
+	        size = file.size;
+	        type = file.type;
+	        
+	        if(file.size > 5000000) {
+	            error("File is to big it have to be under 5MO");
+	            go = false;
+	        }
+	        else if(file.type != 'image/png' && file.type != 'image/jpg' && !file.type != 'image/gif' && file.type != 'image/jpeg' ) {
+	            error("File doesnt match png, jpg or gif");
+	            go = false;
+	        }
+	        else
+	        {
+	        	var formData = new FormData($('#formfile')[0]);
+	        	$.ajax({
+                    url: api_server_address+"/picture",  //server script to process data
+                    type: 'POST',
+                    dataType: 'json',
+                    xhr: function() {  // custom xhr
+                        myXhr = $.ajaxSettings.xhr();
+                        if(myXhr.upload){ // if upload property exists
+                            myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // progressbar
+                        }
+                        return myXhr;
+                    },
+                    //Ajax events
+                    success: completeHandler = function(data) {
+                        
+                        if(data.Status == "ok")
+                        {
+                        	go = true;
+                        	$("#picture").val(data.url);
+                        }
+                        else
+                        {
+                        	error(data.msg);
+                        	go = false;
+                        }
+                    },
+                    error: errorHandler = function() {
+                        error("An error occur during the upload");
+                        go = false;
+                    },
+                    // Form data
+                    data: formData,
+                    //Options to tell JQuery not to process data or worry about content-type
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                }, 'json');
+            	
+	        }
+		}
+		
+		if(go)
+		{
+			$.ajax({
+				type: "POST",
+				url: api_server_address+"/media",
+				dataType: 'json',
+				data: {msg : $("#msg").val(), lat: marker.getPosition().lat(), long: marker.getPosition().lng(), date: $("#date").val(), urlpicture: $("#picture").val(), urlvideo: $("#video").val()}
+				}).done(function(data)
+					{
+						alert(data.Status);	
+					});
+		}
 	}
+}
+
+function progressHandlingFunction(e){
+    if(e.lengthComputable){
+       // $('progress').attr({value:e.loaded,max:e.total});
+    }
 }
 
 function error(msg)
