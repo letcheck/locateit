@@ -2,7 +2,7 @@
 /**
  * Module dependencies.
  */
-
+var fs = require('fs');
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
@@ -48,6 +48,8 @@ mongoose.connect('mongodb://localhost/locateit');
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/media/add/:msg/:lat/:long', content.addMedia);//POST after and add picture and all the things
+app.post('/media', content.addMedia);
+app.post('/picture', content.addPicture);
 app.get('/media/:number', content.getMedia);//begin end lat long rayon in get query
 app.delete('/media/:id/:iduser/:password', content.deleteMedia);
 app.post('/comment', content.addComment);//:idmedia/:msg/:iduser
