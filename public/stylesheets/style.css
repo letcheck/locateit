@@ -71,11 +71,17 @@ footer {
 	width:240px;
 	height:100%;
 	color:#fff;
-	background:#0b79e5;  
+	background:white;/*#0b79e5*/
+	border-width:3px ;
+	border-style:solid;
+	border-color:#0b79e5; 
 	overflow-y: auto;
 	z-index: 1000;
 }
 
+.sidebar .list-group-item{
+	background-color: rgb(245, 245, 245);
+}
 .page-content {
 	padding-left: 250px;
 }
