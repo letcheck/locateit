@@ -137,9 +137,10 @@ function checkAndSend()
 		error("You must provide a media content! A picture via url, via upload or a youtube link");
 	else
 	{
+		var urlpicture = $("#picture").val();
 		var go = true;
 		//if the user want to upload a picture
-		if($("#showfile").val())
+		if($("#showfile").val() && !$("#video").val())
 		{
 			var file = $(".btn-file :file").prop("files")[0];
 	        name = file.name;
@@ -157,6 +158,7 @@ function checkAndSend()
 	        else
 	        {
 	        	var formData = new FormData($('#formfile')[0]);
+	        	$("#progress-bar").show();
 	        	$.ajax({
                     url: api_server_address+"/picture",  //server script to process data
                     type: 'POST',
@@ -171,10 +173,10 @@ function checkAndSend()
                     //Ajax events
                     success: completeHandler = function(data) {
                         
-                        if(data.Status == "ok")
+                        if(data.status == "ok")
                         {
                         	go = true;
-                        	$("#picture").val(data.url);
+                        	urlpicture = data.url;
                         }
                         else
                         {
@@ -203,10 +205,19 @@ function checkAndSend()
 				type: "POST",
 				url: api_server_address+"/media",
 				dataType: 'json',
-				data: {msg : $("#msg").val(), lat: marker.getPosition().lat(), long: marker.getPosition().lng(), date: $("#date").val(), urlpicture: $("#picture").val(), urlvideo: $("#video").val()}
+				data: {msg : $("#msg").val(), lat: marker.getPosition().lat(), long: marker.getPosition().lng(), date: $("#date").val(), urlpicture: urlpicture, urlvideo: $("#video").val()}
 				}).done(function(data)
 					{
-						alert(data.Status);	
+						if(data.status != 'ok')
+							error(data.msg);
+						else
+						{//we clean everything
+							$("#video").val("");
+							$("#showfile").val("");
+							$("#picture").val("");
+							//and we go back to the main page
+							window.location.href = "/";
+						}
 					});
 		}
 	}
@@ -214,7 +225,8 @@ function checkAndSend()
 
 function progressHandlingFunction(e){
     if(e.lengthComputable){
-       // $('progress').attr({value:e.loaded,max:e.total});
+    	$("#progress").show();
+       $('#progress-bar').attr({style: "width:"+e.loaded+"%;"});
     }
 }
 

@@ -39,27 +39,7 @@ function initialize() {
     };
     map = new google.maps.Map(document.getElementById("map-canvas"),
         mapOptions);
-   
-    // Try HTML5 geolocation
-    /*if(navigator.geolocation) 
-    {
-      navigator.geolocation.getCurrentPosition(function(position) 
-    		  {
-		        var pos = new google.maps.LatLng(position.coords.latitude,
-		                                         position.coords.longitude);
-		        
-		        map.setCenter(pos);
-		      }, function() {
-		        handleNoGeolocation(true);
-		      });
-    } 
-    else 
-    {
-      // Browser doesn't support Geolocation
-      handleNoGeolocation(false);
-      
-    }*/
-    
+    resizeMap();
     addMarkers();
 }
 
@@ -97,12 +77,28 @@ function addMarker( lat, long, data)
 	      map: map
 	  });
 	var imgurl = data.media[0].url;
-	var infowindow = new google.maps.InfoWindow({
-	      content: template_text.format(data.msg,imgurl),
+	var date = new Date(data.postdate);
+	var dateStr = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
+	
+	var infowindow;
+	if(data.media[0].type =='img')
+	{
+		infowindow = new google.maps.InfoWindow({
+	      content: template_text.format(data.msg,imgurl, dateStr),
 	      maxWidth: 600
-	  });
+		});
+	}
+	else
+	{
+		infowindow = new google.maps.InfoWindow({
+		      content: template_video.format(data.msg,imgurl, dateStr),
+		      maxWidth: 600
+			});
+	}
 	google.maps.event.addListener(marker, 'click', function() {
-		
+		var pos = new google.maps.LatLng(lat, long);
+
+		map.setCenter(pos);
 		if(infowindowopen != infowindow)
 			infowindow.open(map,marker);
 		onlyOneInfoWindow(marker, infowindow);
@@ -129,3 +125,13 @@ function onlyOneInfoWindow(marker, infowindow)
 }
 //load the map
 google.maps.event.addDomListener(window, 'load', initialize);
+
+window.addEventListener('resize', resizeMap, false);
+
+function resizeMap()
+{
+	var sizeMap = window.innerHeight-50;
+	sizeMap = (sizeMap > 900)? 900 : sizeMap;
+	sizeMap = (sizeMap < 100)? 100 : sizeMap;
+    $("#map-canvas").css("height", sizeMap);
+}
