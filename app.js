@@ -38,17 +38,7 @@ app.get('/api', routes.api);
 app.get('/login', function(req, res){
 	res.redirect(gapi.url);
 });
-app.get('/oauth2callback', function(req, res) {
-  var code = req.query.code;
-  gapi.client.getToken(code, function(err, tokens){
-    gapi.client.credentials = tokens;
-	gapi.plus.people.get({ userId: 'me' }).withAuthClient(gapi.client).execute(function(err, results){
-	  req.session.login = true;
-	  req.session.name = results.displayName;
-	  res.redirect('/');
-	});
-  });
-});
+app.get('/oauth2callback', user.oauth2callback);
 app.get('/logout', function(req, res){
 	gapi.client.revokeToken();
 	req.session.login = false;
