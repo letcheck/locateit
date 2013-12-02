@@ -1,5 +1,17 @@
 <% include header.ejs %>
 <div class="container">
+	<div class="panel panel-danger">
+		<div class="panel-heading"><h2 class="panel-title">GENERAL INFORMATION</h2></div>
+		<div class="panel-body">
+			<div class="row well">
+				<div class="col-lg-12">
+					<p>The server will allways send back a json string, with the content wanted or/and a key call success (value ok or ko) and a key call msg (especially if the status is ko)</p>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
 	<div class="panel panel-primary">
 		<div class="panel-heading"><h2 class="panel-title">USERS</h2></div>
 		<div class="panel-body">
@@ -47,10 +59,19 @@
 		<div class="panel-body">
 			<div class="row well">
 				<div class="col-lg-4">
+					<strong>post /picture</strong>
+				</div>
+				<div class="col-lg-8">
+					Send a picture to the server, post parameters: pictureToUpload(the file). The server send back an url where you can access the picture (and send it back to the server to create a new content for example). 
+				</div>
+			</div>
+		
+			<div class="row well">
+				<div class="col-lg-4">
 					<strong>post /media</strong>
 				</div>
 				<div class="col-lg-8">
-					Get contents, post parameters: msg, lat (latitude), long (longitude), urlpicture (optional), urlvideo(optional), file(optional), date(optional) 
+					Post a new content, post parameters: msg, lat (latitude), long (longitude), urlpicture (optional), urlvideo(optional), date(optional) 
 				</div>
 			</div>
 			
