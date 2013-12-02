@@ -4,7 +4,7 @@ var mongoose = require('mongoose')
 , Schema = mongoose.Schema;
 var Media = require('../models/mediaModel.js');
 
-var contentSchema = new Schema({txt: String, userId: String, date: Date});
+//var contentSchema = new Schema({txt: String, userId: String, date: Date});
 var contentSchema = new Schema({
 msg: String,
 latitude: Number,

@@ -10,7 +10,7 @@ var crypto = require('crypto');
 var serverAddress = "http://127.0.0.1:5000/";
 
 exports.index = function(req, res){
-  res.send("{status : 'ok', Msg : 'Server running'}");
+  res.send("{status : 'ok', msg : 'Server running'}");
 };
 
 exports.addMedia = function(req, res){
