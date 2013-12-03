@@ -1,6 +1,7 @@
 var map;
 var geocoder;
 var marker = null;
+var userid = "";
 /*
  * handle the fact that the browser do not support geolocation
  */
@@ -123,6 +124,7 @@ $(document).ready(function(){
 		checkAndSend();
 	});
 	$("#error").hide();
+	userid = $("#userid").val();
 });
 
 /*
@@ -205,7 +207,7 @@ function checkAndSend()
 				type: "POST",
 				url: api_server_address+"/media",
 				dataType: 'json',
-				data: {msg : $("#msg").val(), lat: marker.getPosition().lat(), long: marker.getPosition().lng(), date: $("#date").val(), urlpicture: urlpicture, urlvideo: $("#video").val()}
+				data: {msg : $("#msg").val(), lat: marker.getPosition().lat(), long: marker.getPosition().lng(), date: $("#date").val(), urlpicture: urlpicture, urlvideo: $("#video").val(), userid: userid}
 				}).done(function(data)
 					{
 						if(data.status != 'ok')

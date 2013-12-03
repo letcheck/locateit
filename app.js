@@ -22,7 +22,11 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-app.use(express.cookieSession({ secret: 'something'}));
+app.use(express.cookieSession({ secret: 'something', 
+	cookie: { 
+	  expires: new Date(Date.now() + 60 * 10000), 
+	  maxAge: 60*10000
+	}}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -43,6 +47,7 @@ app.get('/logout', function(req, res){
 	gapi.client.revokeToken();
 	req.session.login = false;
 	req.session.name = "";
+	req.session.userid = "";
 	res.redirect('/');
 });
 
