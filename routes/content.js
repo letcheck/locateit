@@ -8,6 +8,7 @@ var String = require('../utils/string.js');
 var fs = require('fs');
 var crypto = require('crypto');
 var serverAddress = "http://127.0.0.1:5000/";
+var userfct = require("./user.js");
 
 exports.index = function(req, res){
   res.send("{status : 'ok', msg : 'Server running'}");
@@ -34,8 +35,15 @@ exports.addMedia = function(req, res){
 		return;
 	}
 	
+	var userinfo = userfct.findById(req.body.userid);
+	if(userinfo == null)
+	{
+		res.send('{"status" : "ko", "msg" : "You are not an authentified user, please contact the administrator"}');
+		return;
+	}
+	
 	var map = {msg: req.body.msg, latitude : req.body.lat, longitude : req.body.long, media: mediaH,
-			comment:{}};
+			comment:{}, user: userinfo._id};
 	if(req.body.date)
 	{
 		var date = ISODate(req.body.date);
