@@ -35,22 +35,28 @@ exports.addMedia = function(req, res){
 		return;
 	}
 	
-	var userinfo = userfct.findById(req.body.userid);
-	if(userinfo == null)
-	{
-		res.send('{"status" : "ko", "msg" : "You are not an authentified user, please contact the administrator"}');
-		return;
-	}
+	userfct.findById(req.body.userid, function (userinfo){
+		if(userinfo == null)
+		{
+			res.send('{"status" : "ko", "msg" : "You are not an authentified user, please contact the administrator"}');
+			return;
+		}
+		else
+		{
+			var map = {msg: req.body.msg, latitude : req.body.lat, longitude : req.body.long, media: mediaH,
+					comment:{}, user: userinfo._id};
+			if(req.body.date)
+			{
+				var date = ISODate(req.body.date);
+				map["postdate"] = date;
+			}
+			res.send('{"status" : "ok", "msg" : "Content added"}');	
+			new Content(map).save();
+		}
+	});
 	
-	var map = {msg: req.body.msg, latitude : req.body.lat, longitude : req.body.long, media: mediaH,
-			comment:{}, user: userinfo._id};
-	if(req.body.date)
-	{
-		var date = ISODate(req.body.date);
-		map["postdate"] = date;
-	}
-	res.send('{"status" : "ok", "msg" : "Content added"}');	
-	new Content(map).save();
+	
+	
 	//console.log((req.body.urlvideo == ""));
 	
 };
