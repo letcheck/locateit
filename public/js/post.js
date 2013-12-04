@@ -124,7 +124,7 @@ $(document).ready(function(){
 		checkAndSend();
 	});
 	$("#error").hide();
-	userid = $("#userid").val();
+	userid = $("#userid").text();
 });
 
 /*
