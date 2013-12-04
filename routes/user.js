@@ -6,7 +6,21 @@ var User = require('../models/userModel.js');
 var crypto = require('crypto');
 
 exports.list = function(req, res){
-  	res.send("respond with a resource");
+  	//res.send("respond with a resource");
+  	if(req.query.id != null && req.query.id != "undefined")
+  	{
+  		exports.findByMongoId(req.query.id, function (user){
+  			if(user != null)
+			{console.log('{"status" : "ok", "data": '+user+'}');
+  				res.send('{"status" : "ok", "data": '+user+'}');
+			}
+  			else
+  				res.send('{"status" : "ko", "msg" : "an internal error occur Error 418"}');
+  		});
+  	}
+  	else
+  		res.send('{"status" : "ko", "msg" : "No id of user given"}');
+  	
 };
 
 exports.add = function(req, res){
@@ -39,6 +53,20 @@ exports.findById = function (id, fct){
 		  if (err) { throw err; }
 		  else
 		  {console.log(res.length);console.log(res[0]);
+			  if(res.length > 0)
+				  fct( res[0]);
+			  else
+				  fct(null);
+		  }
+	});
+};
+
+exports.findByMongoId = function (id, fct){
+	var query = User.find({ _id: id});
+	query.exec(function (err, res) {
+		  if (err) { throw err; }
+		  else
+		  {
 			  if(res.length > 0)
 				  fct( res[0]);
 			  else

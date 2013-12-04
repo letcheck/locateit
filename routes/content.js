@@ -99,7 +99,9 @@ exports.addPicture = function(req, res){
 exports.getMedia = function(req, res){//req.query pour les chaine de get
 	Content.find(function(err, contents){
 		if(!err)
+		{
 			res.send(contents);
+		}
 		else
 			res.send('[{"status" : "error", "msg" : "can find any media"}]');
 	});
