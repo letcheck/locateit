@@ -48,11 +48,11 @@ function initialize() {
  */
 function addMarkers()
 {
-	var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+	/*var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
 	var marker = new google.maps.Marker({
 	      position: myLatlng,
 	      map: map
-	  });
+	  });*/
 	$.ajax({
 		type: "GET",
 		url: api_server_address+"/media/10",
@@ -61,15 +61,36 @@ function addMarkers()
 			{
 				var mediaList = $.parseJSON( data );
 				$.each(mediaList, function(){
-					addMarker(this.latitude, this.longitude, this);
+					var media = this;
+					requestUser(this.user, function(name){
+						addMarker(media.latitude, media.longitude, media, name);
+					});
 				});		
+			});
+}
+
+function requestUser(id, callback)
+{
+	$.ajax({
+		type: "GET",
+		url: api_server_address+"/users?id="+id,
+		dataType: 'html',
+		}).done(function(data)
+			{//alert(id+" "+data.status);
+				var data = $.parseJSON( data );
+				if(data.status == "ok")
+				{//alert(data.data);
+					callback(data.data.name);
+				}
+				else
+					callback("Anonyme");
 			});
 }
 
 /*
  * add one marker to the given lat and long
  */
-function addMarker( lat, long, data)
+function addMarker( lat, long, data, name)
 {
 	var latLong = new google.maps.LatLng(lat,long);
 	var marker = new google.maps.Marker({
@@ -84,14 +105,14 @@ function addMarker( lat, long, data)
 	if(data.media[0].type =='img')
 	{
 		infowindow = new google.maps.InfoWindow({
-	      content: template_text.format(data.msg,imgurl, dateStr),
+	      content: template_text.format(data.msg,imgurl, dateStr, name),
 	      maxWidth: 600
 		});
 	}
 	else
 	{
 		infowindow = new google.maps.InfoWindow({
-		      content: template_video.format(data.msg,imgurl, dateStr),
+		      content: template_video.format(data.msg,imgurl, dateStr, name),
 		      maxWidth: 600
 			});
 	}
