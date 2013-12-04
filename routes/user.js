@@ -17,18 +17,37 @@ exports.oauth2callback = function(req, res){
 	var code = req.query.code;
 	gapi.client.getToken(code, function(err, tokens){
 		gapi.client.credentials = tokens;
-		gapi.plus.people.get({ userId: 'me'}).withAuthClient(gapi.client).execute(function(err, results){
+		gapi.oauth.userinfo.get().withAuthClient(gapi.client).execute(function(err, results){
 			req.session.login = true;
-			req.session.name = results.displayName;
+			req.session.user = results;
+			req.session.user.sendmail = false;
 			store(req, res);			
 		});
 	});
 };
 
+exports.account = function(req, res){
+	if(req.session.login){
+		res.render('account', {title : 'Locate It : My Account', login: req.session.login, user : req.session.user, page : ""});
+	}
+}
+
+exports.accountmaj = function(req, res){
+	req.session.user.name = req.body.name;
+	req.session.user.email = req.body.email;
+	if(req.body.sendmail){
+		req.session.user.sendmail = true;
+	}
+	else{
+		req.session.user.sendmail = false;
+	}
+	res.redirect('/account');
+}
+
 function store (req, res){
 	var idd = "";
 	rest.post(serverAddress+'/users', {
-		  data: { name:req.session.name/*, googleid:req.session.googleid, email: req.session.email*/},
+		  data: { name:req.session.user.name/*, googleid:req.session.googleid, email: req.session.email*/},
 		}).on('complete', function (data, response) {
 			  if (response != null && response.statusCode == 200) {
 				  var response = JSON.parse(data);
