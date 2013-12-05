@@ -9,7 +9,8 @@ var express = require('express')
   , poststh = require('./routes/post')
   , http = require('http')
   , path = require('path')
-  , gapi = require('./lib/gapi');
+  , gapi = require('./lib/gapi')
+  ,	rest = require('restler');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use(express.cookieSession({ secret: 'something',
 	}}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(rest);
 
 // development only
 if ('development' == app.get('env')) {

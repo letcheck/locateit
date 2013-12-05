@@ -30,7 +30,7 @@ exports.account = function(req, res){
 	if(req.session.login){
 		res.render('account', {title : 'Locate It : My Account', login: req.session.login, user : req.session.user, page : ""});
 	}
-}
+};
 
 exports.accountmaj = function(req, res){
 	req.session.user.name = req.body.name;
@@ -42,12 +42,12 @@ exports.accountmaj = function(req, res){
 		req.session.user.sendmail = false;
 	}
 	res.redirect('/account');
-}
+};
 
 function store (req, res){
 	var idd = "";
 	rest.post(serverAddress+'/users', {
-		  data: { name:req.session.user.name/*, googleid:req.session.googleid, email: req.session.email*/},
+		  data: { name:req.session.user.name, email: req.session.user.email, sendEmail: req.session.user.sendmail},
 		}).on('complete', function (data, response) {
 			  if (response != null && response.statusCode == 200) {
 				  var response = JSON.parse(data);
@@ -58,9 +58,3 @@ function store (req, res){
 		});
 };
 
-function handleReturnServer(data, response) {
-	  if (response != null && response.statusCode == 200) {
-		  var response = JSON.parse(data);
-		  idd = "hjhj";//response.id;
-	  }
-};
