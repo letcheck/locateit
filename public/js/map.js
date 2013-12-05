@@ -77,9 +77,9 @@ function requestUser(id, callback)
 		dataType: 'json',
 		}).done(function(data)
 			{
-				//var data = $.parseJSON( data );alert(id+" "+data);
+				
 				if(data.status == "ok")
-				{alert(data.data.name);
+				{
 					callback(data.data.name);
 				}
 				else{
