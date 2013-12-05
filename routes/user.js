@@ -11,8 +11,10 @@ exports.list = function(req, res){
   	{
   		exports.findByMongoId(req.query.id, function (user){
   			if(user != null)
-			{console.log('{"status" : "ok", "data": '+user+'}');
-  				res.send('{"status" : "ok", "data": '+user+'}');
+			{
+				var map = {status : "ok", data : user};
+				var json = JSON.stringify(map, null, 4);
+  				res.send(json);
 			}
   			else
   				res.send('{"status" : "ko", "msg" : "an internal error occur Error 418"}');
