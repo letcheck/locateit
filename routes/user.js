@@ -29,12 +29,12 @@ exports.add = function(req, res){
 	
 	//console.log(req.body.name);
 	
-	var id = createId(req.body.name);//req.body.email
+	var id = createId(req.body.email);//req.body.email
 	var user = exports.findById(id, function(user){
 		if(user == null)
 		{
 			//insert new user
-			new User({userid: id, email: "no@email.com", name: req.body.name}).save();
+			new User({userid: id, email: req.body.email, name: req.body.name, sendMail: req.body.sendMail}).save();
 		}
 		res.send('{"status" : "ok", "id" : "'+id+'"}');
 	});
@@ -54,7 +54,7 @@ exports.findById = function (id, fct){
 	query.exec(function (err, res) {
 		  if (err) { throw err; }
 		  else
-		  {console.log(res.length);console.log(res[0]);
+		  {//console.log(res.length);console.log(res[0]);
 			  if(res.length > 0)
 				  fct( res[0]);
 			  else
