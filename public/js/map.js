@@ -74,16 +74,17 @@ function requestUser(id, callback)
 	$.ajax({
 		type: "GET",
 		url: api_server_address+"/users?id="+id,
-		dataType: 'html',
+		dataType: 'json',
 		}).done(function(data)
-			{//alert(id+" "+data.status);
-				var data = $.parseJSON( data );
+			{
+				//var data = $.parseJSON( data );alert(id+" "+data);
 				if(data.status == "ok")
-				{//alert(data.data);
+				{alert(data.data.name);
 					callback(data.data.name);
 				}
-				else
+				else{
 					callback("Anonyme");
+				}
 			});
 }
 
