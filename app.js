@@ -46,7 +46,7 @@ app.get('/login', function(req, res){
 });
 app.get('/oauth2callback', user.oauth2callback);
 app.get('/account', user.account);
-app.post('/accountmaj', user.accountmaj);
+app.post('/account', user.accountmaj);
 app.get('/logout', function(req, res){
 	gapi.client.revokeToken();
 	req.session.login = false;
