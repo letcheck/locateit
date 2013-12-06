@@ -47,22 +47,21 @@ exports.getFollowById = function(req,res){
 };
 
 exports.addFollow = function(req,res){
-	var lat1tokm = 111.11;
-	
 	if( req.body.userid != null && req.body.lat != null && req.body.long != null && req.body.radius != null)
 	{
+		var lat1tokm = 111.11;
 		var radius = parseFloat(req.body.radius);
 		var lat = parseFloat(req.body.lat);
-		var long = parseFloat(req.body.long);
-		var rlat = radius/lat1toKm;
-		var rlng = radius/(lat1toKm * Math.cos(lat));
+		var lng = parseFloat(req.body.long);
+		var rlat = radius/lat1tokm;
+		var rlng = radius/(lat1tokm * Math.cos(lat));
 		
 		var rlatmin = lat - rlat;
 		var rlatmax = lat + rlat;
 		var rlngmin = lng - rlng;
 		var rlngmax = lng + rlng; 
 		
-		new Follow({userid: req.body.userid, lat: lat, long: long, radiusLat: rlat, radiusLong: rlng}).save(function (err) {
+		new Follow({userid: req.body.userid, lat: lat, long: lng, radiusLat: rlat, radiusLong: rlng}).save(function (err) {
 			  if (err) { throw err; }
 			  else
 				  res.send('{"status" : "ok", "msg" : "Follow added"}'); 
