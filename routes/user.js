@@ -33,6 +33,9 @@ exports.account = function(req, res){
 };
 
 exports.accountmaj = function(req, res){
+	rest.post(serverAddress+'/users/update/:'+req.session.user.id, {
+		data: { name: req.body.name, email: req.body.email, sendEmail: req.body.sendmail},
+		});
 	req.session.user.name = req.body.name;
 	req.session.user.email = req.body.email;
 	if(req.body.sendmail){
@@ -42,6 +45,7 @@ exports.accountmaj = function(req, res){
 		req.session.user.sendmail = false;
 	}
 	res.redirect('/account');
+
 };
 
 function store (req, res){
@@ -51,6 +55,7 @@ function store (req, res){
 		}).on('complete', function (data, response) {
 			  if (response != null && response.statusCode == 200) {
 				  var response = JSON.parse(data);
+				  console.log(response);
 				  idd = response.id;
 				  req.session.userid = idd;
 			  }
