@@ -61,7 +61,7 @@ exports.addFollow = function(req,res){
 		var rlngmin = lng - rlng;
 		var rlngmax = lng + rlng; 
 		
-		new Follow({userid: req.body.userid, lat: lat, long: lng, radiusLat: rlat, radiusLong: rlng}).save(function (err) {
+		new Follow({userid: req.body.userid,lat: lat, long: lng, rLatmin: rlatmin, rLatmax: rlatmax, rLngmin: rlngmin, rLngmax: rlngmax}).save(function (err) {
 			  if (err) { throw err; }
 			  else
 				  res.send('{"status" : "ok", "msg" : "Follow added"}'); 
