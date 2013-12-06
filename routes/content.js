@@ -9,7 +9,7 @@ var fs = require('fs');
 var crypto = require('crypto');
 var serverAddress = "http://127.0.0.1:5000/";
 var userfct = require("./user.js");
-var folowfct = require("./follow.js");
+var followfct = require("./follow.js");
 
 exports.index = function(req, res){
   res.send("{status : 'ok', msg : 'Server running'}");
