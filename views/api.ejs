@@ -154,7 +154,7 @@
 					<strong>post /follow</strong>
 				</div>
 				<div class="col-lg-8">
-					To be finish....
+					Add a new followed place, post parameters : userid (the current user id), lat(latitude), long (longitude), radius (in km)
 				</div>
 			</div>
 			
@@ -164,6 +164,24 @@
 				</div>
 				<div class="col-lg-8">
 					Delete a follow, delete parameters : iduser id of the user, idfollow the id of the follow
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>get /follow/notification/:iduser/:nb/:start/:date?</strong>
+				</div>
+				<div class="col-lg-8">
+					Get all the wanted notification for the iduser (id of the user) given, nb (number of notification), start(number where to start), date ( the beginning date, optional)
+				</div>
+			</div>
+			
+			<div class="row well">
+				<div class="col-lg-4">
+					<strong>post /follow/notification/read/:iduser/:idnotification</strong>
+				</div>
+				<div class="col-lg-8">
+					Post the fact that the notification (idnotification) has been written by the user (iduser) 
 				</div>
 			</div>
 		</div>
