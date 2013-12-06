@@ -62,7 +62,8 @@ app.delete('/follow/:iduser/:idfollow', follow.deleteFollow);
 app.post('/users', user.add);
 app.delete('/users', user.deleteUser);
 app.post('/users/update/:iduser', user.updateUser);
-app.get('/follow/notification/:iduser/:nb/:start/:date?', follow.getNotification)
+app.get('/follow/notification/:iduser/:nb/:start/:date?', follow.getNotification);
+app.post('/follow/notification/read/:iduser/:idnotification', follow.readNotification);
 
 
 http.createServer(app).listen(app.get('port'), function(){

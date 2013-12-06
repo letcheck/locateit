@@ -9,6 +9,7 @@ var fs = require('fs');
 var crypto = require('crypto');
 var serverAddress = "http://127.0.0.1:5000/";
 var userfct = require("./user.js");
+var folowfct = require("./follow.js");
 
 exports.index = function(req, res){
   res.send("{status : 'ok', msg : 'Server running'}");
@@ -51,7 +52,10 @@ exports.addMedia = function(req, res){
 				map["postdate"] = date;
 			}
 			res.send('{"status" : "ok", "msg" : "Content added"}');	
-			new Content(map).save();
+			new Content(map).save(function(err, doc){
+				followfct.notify(map, doc._id);
+			});
+			
 		}
 	});
 	
@@ -103,9 +107,11 @@ exports.getMedia = function(req, res){//req.query pour les chaine de get
 			res.send(contents);
 		}
 		else
-			res.send('[{"status" : "error", "msg" : "can find any media"}]');
+			res.send('{"status" : "ko", "msg" : "can find any media"}');
 	});
 };
+
+
 exports.deleteMedia = function(req,res){
 	
 };

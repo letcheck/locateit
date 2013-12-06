@@ -3,6 +3,8 @@
  * - 
  */
 var Follow = require('../models/followModel.js');
+var Notification = require('../models/notificationModel.js');
+var Content = require('./content.js');
 
 exports.getFollow = function(req,res){
 	if(req.params.iduser)
@@ -45,9 +47,22 @@ exports.getFollowById = function(req,res){
 };
 
 exports.addFollow = function(req,res){
+	var lat1tokm = 111.11;
+	
 	if( req.body.userid != null && req.body.lat != null && req.body.long != null && req.body.radius != null)
 	{
-		new Follow({userid: req.body.userid, lat: req.body.lat, long: req.body.long, radius: req.body.radius}).save(function (err) {
+		var radius = parseFloat(req.body.radius);
+		var lat = parseFloat(req.body.lat);
+		var long = parseFloat(req.body.long);
+		var rlat = radius/lat1toKm;
+		var rlng = radius/(lat1toKm * Math.cos(lat));
+		
+		var rlatmin = lat - rlat;
+		var rlatmax = lat + rlat;
+		var rlngmin = lng - rlng;
+		var rlngmax = lng + rlng; 
+		
+		new Follow({userid: req.body.userid, lat: lat, long: long, radiusLat: rlat, radiusLong: rlng}).save(function (err) {
 			  if (err) { throw err; }
 			  else
 				  res.send('{"status" : "ok", "msg" : "Follow added"}'); 
@@ -87,5 +102,68 @@ exports.deleteFollow = function(req,res){
 
 
 exports.getNotification = function(req,res){
+	if(req.params.iduser)
+	{
+		var query = Notification.find({userid: ""+req.params.iduser});
+		if(req.params.nb)
+			query.limit(parseInt(req.params.nb));
+		if(req.params.start)
+			query.skip(parseInt(req.params.start));
+		if(req.params.date)
+			query.where("date").gte(req.params.date);
+		query.sort({date: -1}).exec(function (err, resquery) {
+		  if (err) { throw err; }
+		  else
+			 {
+			  	var map = {status : "ok", data : resquery};
+				var json = JSON.stringify(map, null, 4);
+				res.send(json);
+			 }
+		});
+	}
+	else
+		res.send('{"status" : "ko", "msg" : "No id of user given"}');
+};
+
+exports.readNotification = function(req,res){
+	if(req.params.iduser)
+	{
+		if(req.params.idNotification)
+		{
+			var where = {userid: ""+req.params.iduser, _id : req.params.idNotification};
+			var setmap = {read : true};
+			
+			var query = User.update(where, setmap, function(err){
+				if(err)
+					res.send('{"status" : "ko", "msg" : "An internal error occur"}');
+				else
+					res.send('{"status" : "ok", "msg" : "Notification updated"}');
+			});
+			query.exec();
+		}
+	}
+	else
+		res.send('{"status" : "ko", "msg" : "No id of user given"}');
+};
+
+exports.notify = function (map, id){
 	
-}
+	var lat = map.latitude;
+	var long = map.longitude;
+	var query = Follow.find();
+	query.where("rLatmin").lte(lat);
+	query.where("rLatmax").gte(lat);
+	query.where("rLngmin").lte(long);
+	query.where("rLngmax").gte(long);
+	
+	query.find(function(err, resquery){
+		if(err){}
+		else
+		{
+			for(var i = 0; i < resquery.length; i++)
+			{
+				new Notification({userid : resquery[0].userid, content: id, read: false}).save();
+			}
+		}
+	});
+};
