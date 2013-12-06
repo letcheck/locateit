@@ -94,9 +94,16 @@ function requestUser(id, callback)
 function addMarker( lat, long, data, name)
 {
 	var latLong = new google.maps.LatLng(lat,long);
+	var iconn;
+	if(data.media[0].type == "img")
+	 iconn =  'http://127.0.0.1:3000/img/rsz_icone-photo.png';
+	else
+		iconn =  'http://127.0.0.1:3000/img/rsz_icone-video.png';
+	
 	var marker = new google.maps.Marker({
 	      position: latLong,
-	      map: map
+	      map: map,
+	      icon: iconn
 	  });
 	var imgurl = data.media[0].url;
 	var date = new Date(data.postdate);
