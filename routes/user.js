@@ -13,7 +13,7 @@ exports.list = function(req, res){
   res.send("respond with a resource");
 };
 
-exports.oauth2callback = function(req, res){
+exports.oauth2callback = function(req, res, next){
 	var code = req.query.code;
 	gapi.client.getToken(code, function(err, tokens){
 		gapi.client.credentials = tokens;
@@ -21,7 +21,7 @@ exports.oauth2callback = function(req, res){
 			req.session.login = true;
 			req.session.user = results;
 			req.session.user.sendmail = false;
-			store(req, res);			
+			store(req, res, next);			
 		});
 	});
 };
@@ -33,9 +33,13 @@ exports.account = function(req, res){
 };
 
 exports.accountmaj = function(req, res){
-	rest.post(serverAddress+'/users/update/:'+req.session.user.id, {
+	rest.post(serverAddress+'/users/update/'+req.session.user.userid, {
 		data: { name: req.body.name, email: req.body.email, sendEmail: req.body.sendmail},
-		});
+		}).on('complete', function (data, response) {
+			  if (response != null && response.statusCode == 200) {
+				  
+			  }
+			 });
 	req.session.user.name = req.body.name;
 	req.session.user.email = req.body.email;
 	if(req.body.sendmail){
@@ -48,18 +52,19 @@ exports.accountmaj = function(req, res){
 
 };
 
-function store (req, res){
+function store (req, res, next){
 	var idd = "";
 	rest.post(serverAddress+'/users', {
 		  data: { name:req.session.user.name, email: req.session.user.email, sendEmail: req.session.user.sendmail},
 		}).on('complete', function (data, response) {
 			  if (response != null && response.statusCode == 200) {
 				  var response = JSON.parse(data);
-				  console.log(response);
+				  //console.log(response);
 				  idd = response.id;
 				  req.session.userid = idd;
 			  }
 			  res.redirect('/');
+			  next();
 		});
 };
 
