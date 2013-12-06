@@ -55,7 +55,7 @@ app.get('/logout', function(req, res){
 	res.redirect('/');
 });
 app.get('/follow', function(req, res){
-	res.render('follow', { title: 'Locate It', login: req.session.login, page : "post", userid : req.session.userid });
+	res.render('follow', { title: 'Locate It', login: req.session.login, page : "myplaces", userid : req.session.userid });
 });
 
 

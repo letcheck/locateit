@@ -121,7 +121,7 @@ function follow(){
 			type: "POST",
 			url: api_server_address+"/follow",
 			dataType: 'json',
-			data: {userid: userid, lat: marker.getPosition().lat(), long: marker.getPosition().lng(), radius: circle.radius}
+			data: {userid: userid, lat: marker.getPosition().lat(), long: marker.getPosition().lng(), radius: $("#radius").val()}
 			})
 	}
 }
