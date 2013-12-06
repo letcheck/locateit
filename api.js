@@ -61,7 +61,7 @@ app.post('/follow', follow.addFollow);//iduser, lat, long , rayon
 app.delete('/follow/:iduser/:idfollow', follow.deleteFollow);
 app.post('/users', user.add);
 app.delete('/users', user.deleteUser);
-app.post('/users/update/:iduser/', user.updateUser);
+app.post('/users/update/:iduser', user.updateUser);
 
 
 http.createServer(app).listen(app.get('port'), function(){

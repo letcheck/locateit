@@ -48,7 +48,29 @@ exports.deleteUser = function(req, res){
 };
 
 exports.updateUser = function(req, res){
-	res.send("respond with a resource");
+	var iduser = req.params.iduser;
+	if(iduser != null && iduser != "undefined")
+  	{
+		var where = {userid: ""+iduser};
+		var setmap = {};
+		if(req.body.name)
+			setmap["name"] = req.body.name;
+		if(req.body.sendMail != null)
+		{
+			if(req.body.sendMail == "true")
+				setmap["sendMail"] = true;
+			else
+				setmap["sendMail"] = false;
+		}
+		var query = User.update(where, setmap, function(err){
+			if(err)
+				res.send('{"status" : "ko", "msg" : "An internal error occur"}');
+			else
+				res.send('{"status" : "ok", "msg" : "User updated"}');
+		});
+  	}
+	else
+		res.send('{"status" : "ko", "msg" : "No id of user given"}');
 };
 
 exports.findById = function (id, fct){
