@@ -1,0 +1,57 @@
+<% include header.ejs %>
+<script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_HVOremtwgY_yjF4CaRiumfJ3QO3XeKk&sensor=false">
+</script>
+<script type="text/javascript" 
+	src="/js/follow.js">
+</script>
+<span id="userid" style="visibility:collapse;"><%= userid %></span>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-6">
+			<div id="map" style="height:400px;"></div>
+		</div>
+		<div class="col-lg-5 col-lg-offset-1">
+			<div class="row">
+				<button class="btn btn-default" type="button" id="locateme">
+					Locate me
+				</button>
+			</div>
+			<div class="row">
+				<div class="input-group">
+					<input class="form-control" type="text" id="address"></input>
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" id="gothere">
+							Go there
+						</button>
+					</span>
+					
+				</div>
+			</div>
+			<div class="row">
+				<span class="help-block">
+					Search a place with a name ...
+				</span>
+			</div>
+			<div class="row">
+				<div class="input-group">
+					<span class="input-group-addon">
+						Radius
+					</span>
+					<input class="form-control" type="number" id="radius"></input>
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" id="radiusButton">
+							Ok
+						</button>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<button class="btn btn-primary" type="button" id="follow">
+					follow
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<% include footer.ejs %>

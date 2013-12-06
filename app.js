@@ -54,6 +54,9 @@ app.get('/logout', function(req, res){
 	req.session.userid = "";
 	res.redirect('/');
 });
+app.get('/follow', function(req, res){
+	res.render('follow', { title: 'Locate It', login: req.session.login, page : "post", userid : req.session.userid });
+});
 
 
 http.createServer(app).listen(app.get('port'), function(){
