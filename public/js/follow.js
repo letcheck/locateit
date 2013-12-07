@@ -113,6 +113,7 @@ $(document).ready(function(){
 	$("#radiusButton").click(changeRadius);
 	$("#follow").click(follow);
 	userid = $("#userid").text();
+	markFollowedPlaces();
 });
 
 function follow(){
@@ -121,8 +122,11 @@ function follow(){
 			type: "POST",
 			url: api_server_address+"/follow",
 			dataType: 'json',
-			data: {userid: userid, lat: marker.getPosition().lat(), long: marker.getPosition().lng(), radius: $("#radius").val()}
-			})
+			data: {userid: userid, lat: marker.getPosition().lat(), long: marker.getPosition().lng(), radius: circle.radius/1000}
+			}).done(function(data)
+			{
+				location.reload(); 
+			});
 	}
 }
 
@@ -139,4 +143,50 @@ function changeRadius() {
 		}
 		circle.setRadius($("#radius").val()*1000);
 	}
+}
+
+function getWindowContent(id){
+	return '<button class="btn btn-primary" type="button" onclick="unfollow(\'' + id + '\')">unfollow</button>';
+}
+
+function markFollowedPlaces(){
+	$.ajax({
+		type: "GET",
+		url: api_server_address+"/follow/all/"+userid+"/10000/0/prout",
+		dataType: 'json',
+		}).done(function(data)
+		{
+			$.each(data.data, function(){
+				console.log(this._id);
+				var radius = (this.lat - this.rLatmin) * 111110;
+				var cmarker = new google.maps.Marker({
+					icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+					position: new google.maps.LatLng(this.lat, this.long),
+					map: map
+				});
+				var circle = new google.maps.Circle({
+				  map: map,
+				  fillColor: '#AAA000',
+				  radius: radius,
+				  clickable: false
+				});
+				circle.bindTo('center', cmarker, 'position');
+				var infowindow = new google.maps.InfoWindow({
+				  content: getWindowContent(this._id)
+				});
+				google.maps.event.addListener(cmarker, 'click', function() {
+					infowindow.open(map,cmarker);
+				});
+			});		
+		});
+}
+
+function unfollow(id){
+	$.ajax({
+		type: 'DELETE',
+		url: api_server_address+"/follow/"+userid+"/"+id
+		}).done(function(data)
+		{
+			location.reload(); 
+		});
 }
