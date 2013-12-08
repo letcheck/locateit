@@ -63,7 +63,12 @@ function store (req, res, next){
 				  idd = response.id;
 				  req.session.userid = idd;
 			  }
-			  res.redirect('/');
+			  try{
+				  res.redirect('/');
+			  }
+			  catch(e){
+				  console.log(e);
+			  }
 			  next();
 		});
 };

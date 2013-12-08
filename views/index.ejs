@@ -7,13 +7,21 @@
 <script type="text/javascript" src="/js/template_infowindow.js"></script>
 
 <div class="container" id="content">
+	<%if (!login) { %>
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="jumbotron">
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam hendrerit feugiat ante nec commodo. Integer tristique nunc nec est tempor, ac fermentum ante scelerisque. Fusce vitae eros purus. In hac habitasse platea dictumst. Morbi eu lorem gravida, facilisis sem nec, vulputate tellus. Vivamus eleifend facilisis metus, vitae adipiscing dolor lacinia vel. Vestibulum sollicitudin sit amet risus quis interdum. </p>
+				<h1>What's Locate it ?</h1>
+				
+				<p>Locateit is web application where users all around the world can upload media(video, text, picture) and geotag it! But why will you do that? The answer is simple for social purpose and achievement! Other users can rate your media. Share your most incredible experiences all around the world.
+			<br/>See the media put by the other and follow a location to receive update when something is post there!<br/>
+			</p>
+			<h2>Whant to try? </h2>
+			<p>It's simple just login with your google account! </p>
 			</div>
 		</div>
 	</div>
+	<% } %>
 	<div class="row">
 		<div class="col-lg-12 pagination-centered">
 			<!-- <img  src="/img/google-maps.png" width="800px"/>-->
