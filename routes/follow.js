@@ -155,13 +155,13 @@ exports.notify = function (map, id){
 	query.where("rLngmin").lte(long);
 	query.where("rLngmax").gte(long);
 	
-	query.find(function(err, resquery){
+	query.find(function(err, resquery){console.log(resquery);
 		if(err){}
 		else
 		{
 			for(var i = 0; i < resquery.length; i++)
 			{
-				new Notification({userid : resquery[0].userid, content: id, read: false}).save();
+				new Notification({userid : resquery[i].userid, content: id, read: false, followid: resquery[i]._id}).save();
 			}
 		}
 	});

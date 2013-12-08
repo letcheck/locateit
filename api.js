@@ -51,18 +51,19 @@ app.get('/users', user.list);
 app.post('/media', content.addMedia);
 app.post('/picture', content.addPicture);
 app.get('/media/:number', content.getMedia);//begin end lat long rayon in get query
+app.get('/media/one', content.getOneMedia);
 app.delete('/media/:id/:iduser/:password', content.deleteMedia);
 app.post('/comment', content.addComment);//:idmedia/:msg/:iduser
 app.get('/comment/:idmedia/:nb/:start', content.getComment);
 app.delete('/comment/:idcomment/:iduser', content.deleteComment);
-app.get('/follow/all/:iduser/:nb/:start/:date?', follow.getFollow);
+app.get('/follow/all/:iduser/:nb?/:start?/:date?', follow.getFollow);
 app.get('/follow/:id', follow.getFollowById);
 app.post('/follow', follow.addFollow);//iduser, lat, long , rayon 
 app.delete('/follow/:iduser/:idfollow', follow.deleteFollow);
 app.post('/users', user.add);
 app.delete('/users', user.deleteUser);
 app.post('/users/update/:iduser', user.updateUser);
-app.get('/follow/notification/:iduser/:nb/:start/:date?', follow.getNotification);
+app.get('/follow/notification/:iduser/:nb/:start?/:date?', follow.getNotification);
 app.post('/follow/notification/read/:iduser/:idnotification', follow.readNotification);
 app.options('/follow/:iduser/:idfollow', function(req, res){
   res.header('Access-Control-Allow-Origin', '*');

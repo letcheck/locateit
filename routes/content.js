@@ -100,7 +100,9 @@ exports.addPicture = function(req, res){
 	}
 };
 
-exports.getMedia = function(req, res){//req.query pour les chaine de get
+exports.getMedia = function(req, res, next){//req.query pour les chaine de get
+	if(req.params.number == "one")
+		next();
 	Content.find(function(err, contents){
 		if(!err)
 		{
@@ -111,6 +113,19 @@ exports.getMedia = function(req, res){//req.query pour les chaine de get
 	});
 };
 
+exports.getOneMedia = function(req, res){
+	var query = Content.find({_id: ""+req.query.id});
+	query.exec(function (err, result) {
+		  if (err) { throw err; }
+		  else
+		  {
+			  var map = {status : "ok", data : result};
+			  var json = JSON.stringify(map, null, 4);
+			  res.send(json);
+			  
+		  }
+	});
+};
 
 exports.deleteMedia = function(req,res){
 	
