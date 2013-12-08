@@ -20,10 +20,24 @@ exports.list = function(req, res){
   				res.send('{"status" : "ko", "msg" : "an internal error occur Error 418"}');
   		});
   	}
+  	else if(req.query.userid != null && req.query.userid != "undefined")
+  	{
+  		exports.findById(req.query.userid, function (user){
+  			if(user != null)
+			{
+				var map = {status : "ok", data : user};
+				var json = JSON.stringify(map, null, 4);
+  				res.send(json);
+			}
+  			else
+  				res.send('{"status" : "ko", "msg" : "an internal error occur Error 418"}');
+  		});
+  	}
   	else
   		res.send('{"status" : "ko", "msg" : "No id of user given"}');
   	
 };
+
 
 exports.add = function(req, res){
 	
