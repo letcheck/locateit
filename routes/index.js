@@ -5,7 +5,7 @@
 
 exports.index = function(req, res){
 
-	res.render('index', { title: 'Locate It', login: req.session.login, page : "home" });
+	res.render('index', { title: 'Locate It', login: req.session.login, page : "home", userid:req.session.userid });
 };
 
 exports.api = function(req, res){

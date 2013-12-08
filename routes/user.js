@@ -31,7 +31,8 @@ exports.account = function(req, res){
 		rest.get(serverAddress+"/users?userid="+req.session.userid).on('complete', function(data, response) {
 				if (response != null && response.statusCode == 200) {
 					var resp = JSON.parse(data);
-					req.session.user.name = resp.data.name;
+					 if( resp.data.name != null )
+						 req.session.user.name = resp.data.name;
 					res.render('account', {title : 'Locate It : My Account', login: req.session.login, user : req.session.user, page : ""});
 				}
 		});
