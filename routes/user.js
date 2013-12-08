@@ -28,7 +28,7 @@ exports.oauth2callback = function(req, res, next){
 
 exports.account = function(req, res){
 	if(req.session.login){
-		rest.get(serverAddress+"/users?userid="+req.session.userid).on('complete', function(data, response) {console.log(data);
+		rest.get(serverAddress+"/users?userid="+req.session.userid).on('complete', function(data, response) {
 				if (response != null && response.statusCode == 200) {
 					var resp = JSON.parse(data);
 					req.session.user.name = resp.data.name;
