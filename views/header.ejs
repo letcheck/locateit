@@ -23,9 +23,11 @@
         <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">
 			<li id="home"><a href="/">Home</a></li>
+			<%if (login) { %>
 			<li id="post"><a href="post">Post something</a></li>
 			<li id="myplaces"><a href="follow">Follow places</a></li>
-			<button id="mypost" class="btn btn-default navbar-btn" onclick="toggleSidebar();">My post</button>
+			<button id="notification" class="btn btn-default navbar-btn" onclick="toggleSidebar();">Notification</button>
+			<% } %>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
