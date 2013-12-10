@@ -6,6 +6,7 @@
 var map;
 var openmarker = null;
 var infowindowopen = null;
+var markers = {};
 /*
  * handle the fact that the browser do not support geolocation
  */
@@ -132,6 +133,7 @@ function addMarker( lat, long, data, name)
 			infowindow.open(map,marker);
 		onlyOneInfoWindow(marker, infowindow);
 	  });
+	 markers[data._id] = marker;
 
 }
 

@@ -105,8 +105,9 @@ function parseNot(data, callback)
 		var center = "";
 		count = data.length;
 		$.each(data, function(){
+			var currentId = this.content;
 			getSummary(this.content, function(text){
-				center += sidebarCenter2.format(text);
+				center += ('<a class="list-group-item" href="#" onClick="showNotification(\''+currentId+'\')">{0}</a>').format(text);
 				count--;
 				if(count == 0)
 					callback(center);
@@ -149,6 +150,11 @@ function inverseGeocoding(lat, long , callback)
 	      	}
 	    }
 	});
+}
+
+function showNotification(id)
+{
+	google.maps.event.trigger(markers[id], 'click');
 }
 
 /*
