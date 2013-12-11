@@ -62,9 +62,9 @@ exports.addFollow = function(req,res){
 		var rlngmax = lng + rlng;
 		
 		if(rlngmin > rlngmax){
-			var tmp = rlgnmin;
-			rlgnmin = rlgnmax;
-			rlgnmax = tmp;
+			var tmp = rlngmin;
+			rlngmin = rlngmax;
+			rlngmax = tmp;
 		}
 		
 		new Follow({userid: req.body.userid,lat: lat, long: lng, rLatmin: rlatmin, rLatmax: rlatmax, rLngmin: rlngmin, rLngmax: rlngmax}).save(function (err) {

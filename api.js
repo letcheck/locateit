@@ -65,11 +65,11 @@ app.delete('/users', user.deleteUser);
 app.post('/users/update/:iduser', user.updateUser);
 app.get('/follow/notification/:iduser/:nb/:start?/:date?', follow.getNotification);
 app.post('/follow/notification/read/:iduser/:idnotification', follow.readNotification);
-/*app.options('/follow/:iduser/:idfollow', function(req, res){
+app.options('/follow/:iduser/:idfollow', function(req, res){
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'DELETE');
   res.end();
-});*/
+});
 
 
 http.createServer(app).listen(app.get('port'), function(){
