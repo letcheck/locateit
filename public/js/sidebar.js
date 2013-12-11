@@ -1,11 +1,11 @@
-var showSidebar = false;
+var showSidebar = true;
 var sidebarHtmltop = '<div class="sidebar">'+
 	'<div class="list-group">'+
 		'<a class="list-group-item active" href="#">Places</a>';
 
 var sidebarCenter = '<a class="list-group-item" href="#" onClick="printFollowOnMap();">{0}</a>';
 var sidebarBottom1 = '</div><div class="list-group"><a class="list-group-item active" href="#">Notifications</a>';
-var sidebarCenter2 = '<a class="list-group-item" href="#" onClick="showNotification()">{0}</a>';
+var sidebarCenter2 = '<a class="list-group-item" id="{1}" href="#" onClick="showNotification(\'{1}\', \'{3}\');" style="{2}">{0}</a>';
 var sidebarHtmlBottom2 = 		'</div>'+
 							'</div>';
 var userid = "";
@@ -22,7 +22,7 @@ var toggleSidebar = function()
 	//console.log("coucou");
 	var body = document.getElementById('body');
 	var content = document.getElementById('content');
-	showSidebar = !showSidebar;
+	
 	if (showSidebar) {
 		getData(function(follows, nots){
 			var div = document.createElement('div');
@@ -34,6 +34,7 @@ var toggleSidebar = function()
 				var html = sidebarHtmltop + center + sidebarBottom1+ center2+ sidebarHtmlBottom2;
 				div.innerHTML = html;
 				body.insertBefore(div, content);
+				showSidebar = !showSidebar;
 			});
 			
 			content.setAttribute('class', 'container page-content');
@@ -46,6 +47,7 @@ var toggleSidebar = function()
 		body.removeChild(sidebar);
 		content.setAttribute('class', 'container');
 		$("#notification").removeClass('active');
+		showSidebar = !showSidebar;
 	}
 	
 };
@@ -106,8 +108,13 @@ function parseNot(data, callback)
 		count = data.length;
 		$.each(data, function(){
 			var currentId = this.content;
+			var notid = this._id;
+			var read = this.read;
 			getSummary(this.content, function(text){
-				center += ('<a class="list-group-item" href="#" onClick="showNotification(\''+currentId+'\')">{0}</a>').format(text);
+				var style = "";
+				if(read)
+					style = "background-color:rgb(200,200,200);";
+				center += sidebarCenter2.format(text, currentId, style, notid);
 				count--;
 				if(count == 0)
 					callback(center);
@@ -128,7 +135,7 @@ function getSummary(id, callback)
 			{
 				var d = $.parseJSON( data );
 				var shortText;
-				if(d.data[0].msg)
+				if(d.data != null && d.data[0].msg)
 				{
 					shortText = jQuery.trim(d.data[0].msg).substring(0, 50);
 					if(d.data[0].msg.length > 50)
@@ -152,9 +159,15 @@ function inverseGeocoding(lat, long , callback)
 	});
 }
 
-function showNotification(id)
+function showNotification(id, idnot)
 {
 	google.maps.event.trigger(markers[id], 'click');
+	$("#"+id).attr("style","background-color:rgb(200,200,200);");
+	$.ajax({
+		type: "POST",
+		url: api_server_address+"/follow/notification/read/"+userid+"/"+idnot,
+		dataType: 'html',
+		});
 }
 
 /*
