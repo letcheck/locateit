@@ -127,12 +127,12 @@ exports.getNotification = function(req,res){
 exports.readNotification = function(req,res){
 	if(req.params.iduser)
 	{
-		if(req.params.idNotification)
+		if(req.params.idnotification)
 		{
-			var where = {userid: ""+req.params.iduser, _id : req.params.idNotification};
+			var where = {userid: ""+req.params.iduser, _id : req.params.idnotification};
 			var setmap = {read : true};
 			
-			var query = User.update(where, setmap, function(err){
+			var query = Notification.update(where, setmap, function(err){
 				if(err)
 					res.send('{"status" : "ko", "msg" : "An internal error occur"}');
 				else

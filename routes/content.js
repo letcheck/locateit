@@ -116,13 +116,16 @@ exports.getMedia = function(req, res, next){//req.query pour les chaine de get
 exports.getOneMedia = function(req, res){
 	var query = Content.find({_id: ""+req.query.id});
 	query.exec(function (err, result) {
-		  if (err) { throw err; }
+		  if (err) { console.log(err); res.send('{"status" : "ko", "msg" : "an internal error occur"}');}
 		  else
 		  {
 			  var map = {status : "ok", data : result};
 			  var json = JSON.stringify(map, null, 4);
-			  res.send(json);
-			  
+			  try{
+				  res.send(json);
+			  }catch(e){
+				  console.log(e);
+			  }
 		  }
 	});
 };
