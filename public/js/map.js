@@ -97,9 +97,9 @@ function addMarker( lat, long, data, name)
 	var latLong = new google.maps.LatLng(lat,long);
 	var iconn;
 	if(data.media[0].type == "img")
-	 iconn =  'http://127.0.0.1:3000/img/rsz_icone-photo.png';
+	 iconn =  api_server_address+'/img/rsz_icone-photo.png';
 	else
-		iconn =  'http://127.0.0.1:3000/img/rsz_icone-video.png';
+		iconn =  api_server_address+'/img/rsz_icone-video.png';
 	
 	var marker = new google.maps.Marker({
 	      position: latLong,
