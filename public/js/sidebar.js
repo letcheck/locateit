@@ -35,9 +35,10 @@ var toggleSidebar = function()
 				div.innerHTML = html;
 				body.insertBefore(div, content);
 				showSidebar = !showSidebar;
+				content.setAttribute('class', 'container page-content');
 			});
 			
-			content.setAttribute('class', 'container page-content');
+			
 		});
 		
 		$("#notification").addClass('active');
@@ -153,7 +154,10 @@ function inverseGeocoding(lat, long , callback)
 	geocoder.geocode({'latLng': latlng}, function(results, status) {
 	    if (status == google.maps.GeocoderStatus.OK) {
 	      if (results[1]) {
-	    	  callback(results[1].address_components[2].long_name);
+				if(results[1].address_components[2])
+					callback(results[1].address_components[2].long_name);
+				else
+					callback('unknow');
 	      	}
 	    }
 	});
