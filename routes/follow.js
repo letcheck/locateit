@@ -59,7 +59,13 @@ exports.addFollow = function(req,res){
 		var rlatmin = lat - rlat;
 		var rlatmax = lat + rlat;
 		var rlngmin = lng - rlng;
-		var rlngmax = lng + rlng; 
+		var rlngmax = lng + rlng;
+		
+		if(rlngmin > rlngmax){
+			var tmp = rlgnmin;
+			rlgnmin = rlgnmax;
+			rlgnmax = tmp;
+		}
 		
 		new Follow({userid: req.body.userid,lat: lat, long: lng, rLatmin: rlatmin, rLatmax: rlatmax, rLngmin: rlngmin, rLngmax: rlngmax}).save(function (err) {
 			  if (err) { throw err; }
@@ -150,29 +156,23 @@ exports.notify = function (map, id){
 	var lat = map.latitude;
 	var long = map.longitude;
 	var query = Follow.find();
-	if(lat > 0)
-	{
-		query.where("rLatmin").lte(lat);
-		query.where("rLatmax").gte(lat);
-	}
-	else
-	{
-		query.where("rLatmin").gte(lat);
-		query.where("rLatmax").lte(lat);
-	}
-	if(long > 0)
-	{
+	
+	query.where("rLatmin").lte(lat);
+	query.where("rLatmax").gte(lat);
+		
+	/*if(long > 0)
+	{*/
 		query.where("rLngmin").lte(long);
 		query.where("rLngmax").gte(long);
-	}
+	/*}
 	else
 	{
 		query.where("rLngmin").gte(long);
 		query.where("rLngmax").lte(long);
-	}
+	}*/
 	
 	query.find(function(err, resquery){
-		if(err){}
+		if(err){console.log("erreur "+err);}
 		else
 		{
 			for(var i = 0; i < resquery.length; i++)
