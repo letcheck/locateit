@@ -114,7 +114,7 @@ function addMarker( lat, long, data, name)
 	if(data.media[0].type =='img')
 	{
 		infowindow = new google.maps.InfoWindow({
-	      content: template_text.format(data.msg,imgurl, dateStr, name),
+	      content: template_text.format(data.msg,imgurl, dateStr, name, data._id),
 	      maxWidth: 600
 		});
 	}
@@ -165,4 +165,14 @@ function resizeMap()
 	sizeMap = (sizeMap > 900)? 900 : sizeMap;
 	sizeMap = (sizeMap < 100)? 100 : sizeMap;
     $("#map-canvas").css("height", sizeMap);
+}
+
+function rate(val, id)
+{
+	$.ajax({
+		type: "POST",
+		url: api_server_address+"/media/rate",
+		dataType: 'json',
+		data: {rate: val, id: id}
+		});
 }
