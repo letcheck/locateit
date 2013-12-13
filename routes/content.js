@@ -48,7 +48,8 @@ exports.addMedia = function(req, res){
 					comment:{}, user: userinfo._id};
 			if(req.body.date)
 			{
-				var date = ISODate(req.body.date);
+				var d = req.body.date.split("-");
+				var date = new Date(d[0], d[1], d[2]).toISOString();
 				map["postdate"] = date;
 			}
 			res.send('{"status" : "ok", "msg" : "Content added"}');	
