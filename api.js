@@ -52,6 +52,7 @@ app.post('/media', content.addMedia);
 app.post('/picture', content.addPicture);
 app.get('/media/:number', content.getMedia);//begin end lat long rayon in get query
 app.get('/media/one', content.getOneMedia);
+app.post('/media/rate', content.rate);
 app.delete('/media/:id/:iduser/:password', content.deleteMedia);
 app.post('/comment', content.addComment);//:idmedia/:msg/:iduser
 app.get('/comment/:idmedia/:nb/:start', content.getComment);

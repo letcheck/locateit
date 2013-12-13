@@ -131,6 +131,28 @@ exports.getOneMedia = function(req, res){
 	});
 };
 
+exports.rate = function(req,res)
+{
+	if(req.body.rate && req.body.id)
+	{
+		var query = Content.find({_id: ""+req.query.id});
+		query.exec(function(err, result){
+			if(!err)
+			{
+				var where = {_id: ""+req.body.id};
+				var val = (req.body.rate)? 1 : -1;
+				var setmap = {rating: result[0].rating+val};
+				User.update(where, setmap, function(err){
+					if(!err)
+						res.send('{"status" : "ok", "msg" : "rating updated"}');
+				});
+			}
+		});
+	}
+	else
+		res.send('{"status" : "ko", "msg" : "not enough data"}');
+};
+
 exports.deleteMedia = function(req,res){
 	
 };
