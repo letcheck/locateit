@@ -121,7 +121,7 @@ function addMarker( lat, long, data, name)
 	else
 	{
 		infowindow = new google.maps.InfoWindow({
-		      content: template_video.format(data.msg,imgurl, dateStr, name),
+		      content: template_video.format(data.msg,imgurl, dateStr, name, data._id),
 		      maxWidth: 600
 			});
 	}
