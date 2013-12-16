@@ -40,8 +40,13 @@ function initialize() {
     };
     map = new google.maps.Map(document.getElementById("map-canvas"),
         mapOptions);
+    google.maps.event.addListener(map, 'bounds_changed', function() {
+    	markers = null;
+    	addMarkers();
+    });
+    
     resizeMap();
-    addMarkers();
+    //addMarkers();
 }
 
 /*
@@ -49,14 +54,20 @@ function initialize() {
  */
 function addMarkers()
 {
-	/*var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-	var marker = new google.maps.Marker({
-	      position: myLatlng,
-	      map: map
-	  });*/
+	var url = "";
+	if(map.getBounds != null)
+	{
+		var latmin = map.getBounds().getSouthWest().lat();
+		var latmax = map.getBounds().getNorthEast().lat();
+		var longmin = map.getBounds().getSouthWest().lng();
+		var longmax = map.getBounds().getNorthEast().lng();
+		url = api_server_address+"/media/10?latmin="+latmin+"&latmax="+latmax+"&longmin="+longmin+"&longmax="+longmax;
+	}
+	else
+		url = api_server_address+"/media/10";
 	$.ajax({
 		type: "GET",
-		url: api_server_address+"/media/10",
+		url: url,
 		dataType: 'html',
 		}).done(function(data)
 			{
@@ -68,6 +79,7 @@ function addMarkers()
 					});
 				});		
 			});
+	
 }
 
 function requestUser(id, callback)
