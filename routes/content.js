@@ -48,9 +48,9 @@ exports.addMedia = function(req, res){
 					comment:{}, user: userinfo._id};
 			if(req.body.date)
 			{
-				var d = req.body.date.split("-");
-				var date = new Date(d[0], d[1], d[2]).toISOString();
-				map["postdate"] = date;
+				/*var d = req.body.date.split("-");
+				var date = new Date(d[0], d[1], d[2]).toISOString();*/
+				map["postdate"] = createIsoDate(req.body.date);
 			}
 			res.send('{"status" : "ok", "msg" : "Content added"}');	
 			new Content(map).save(function(err, doc){
@@ -65,6 +65,16 @@ exports.addMedia = function(req, res){
 	//console.log((req.body.urlvideo == ""));
 	
 };
+
+/*
+ * create an isodate base on a YYYY-MM-DD date
+ */
+function createIsoDate(dt)
+{
+	var d = dt.split("-");
+	var date = new Date(d[0], d[1], d[2]).toISOString();
+	return date;
+}
 
 /*
  * add a picture to the img folder and send back the url
@@ -102,9 +112,34 @@ exports.addPicture = function(req, res){
 };
 
 exports.getMedia = function(req, res, next){//req.query pour les chaine de get
-	if(req.params.number == "one")
+	if(!req.params.number)
+	{
+		res.send('{"status" : "ko", "msg" : "not enough data given, check the api"}');
+		return;
+	}
+	
+	if(req.params.number == "one")//we go to getOneMedia
 		next();
-	Content.find(function(err, contents){
+	
+	var query = Content.find();
+	query.limit(parseInt(req.params.number));
+	if(req.query.start)
+		query.skip(parseInt(req.query.start));
+	if(req.query.begin)
+		query.where("postdate").gte(createIsoDate(req.query.begin));
+	if(req.query.end)
+		query.where("postdate").lte(createIsoDate(req.query.end));
+	if(req.query.latmin)
+		query.where("latitude").gte(parseFloat(req.query.latmin));
+	if(req.query.latmax)
+		query.where("latitude").lte(parseFloat(req.query.latmax));
+	if(req.query.longmin)
+		query.where("longitude").gte(parseFloat(req.query.longmin));
+	if(req.query.longmax)
+		query.where("longitude").lte(parseFloat(req.query.longmax));
+	
+	query.sort("-rating");
+	query.exec(function(err, contents){
 		if(!err)
 		{
 			res.send(contents);
