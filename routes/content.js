@@ -138,7 +138,7 @@ exports.getMedia = function(req, res, next){//req.query pour les chaine de get
 	if(req.query.longmax)
 		query.where("longitude").lte(parseFloat(req.query.longmax));
 	
-	query.sort("-rating");
+	query.sort("-postdate -rating");
 	query.exec(function(err, contents){
 		if(!err)
 		{
