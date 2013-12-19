@@ -1,6 +1,10 @@
 /*
  * REST api for the media content, the function :
  * - addMedia
+ * - addPicture
+ * - getMedia
+ * - getOneMedia
+ * - rate
  */
 var Content = require('../models/contentModel.js');
 var Media = require('../models/mediaModel.js');
@@ -48,8 +52,6 @@ exports.addMedia = function(req, res){
 					comment:{}, user: userinfo._id};
 			if(req.body.date)
 			{
-				/*var d = req.body.date.split("-");
-				var date = new Date(d[0], d[1], d[2]).toISOString();*/
 				map["postdate"] = createIsoDate(req.body.date);
 			}
 			res.send('{"status" : "ok", "msg" : "Content added"}');	
@@ -59,10 +61,6 @@ exports.addMedia = function(req, res){
 			
 		}
 	});
-	
-	
-	
-	//console.log((req.body.urlvideo == ""));
 	
 };
 
@@ -111,7 +109,10 @@ exports.addPicture = function(req, res){
 	}
 };
 
-exports.getMedia = function(req, res, next){//req.query pour les chaine de get
+/*
+ * get all the media wanted (get paramters)
+ */
+exports.getMedia = function(req, res, next){
 	if(!req.params.number)
 	{
 		res.send('{"status" : "ko", "msg" : "not enough data given, check the api"}');
@@ -138,7 +139,7 @@ exports.getMedia = function(req, res, next){//req.query pour les chaine de get
 	if(req.query.longmax)
 		query.where("longitude").lte(parseFloat(req.query.longmax));
 	
-	query.sort("-postdate -rating");
+	query.sort("-postdate -rating");//we sort by postdate and rating inverse order
 	query.exec(function(err, contents){
 		if(!err)
 		{
@@ -149,6 +150,9 @@ exports.getMedia = function(req, res, next){//req.query pour les chaine de get
 	});
 };
 
+/*
+ * get only one media, id given
+ */
 exports.getOneMedia = function(req, res){
 	var query = Content.find({_id: ""+req.query.id});
 	query.exec(function (err, result) {
@@ -166,6 +170,9 @@ exports.getOneMedia = function(req, res){
 	});
 };
 
+/*
+ * rate the media
+ */
 exports.rate = function(req,res)
 {
 	if(req.body.rate && req.body.id)
@@ -189,17 +196,17 @@ exports.rate = function(req,res)
 };
 
 exports.deleteMedia = function(req,res){
-	
+	//NOT IMPLEMENTED YET
 };
 
 exports.addComment = function(req,res){
-	
+	//NOT IMPLEMENTED YET
 };
 
 exports.getComment = function(req,res){
-	
+	//NOT IMPLEMENTED YET
 };
 
 exports.deleteComment = function(req,res){
-	
+	//NOT IMPLEMENTED YET
 };

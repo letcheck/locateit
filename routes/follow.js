@@ -1,6 +1,12 @@
 /*
  * REST api for the follow, the function :
- * - 
+ * - getFollow
+ * - getFollowById
+ * - addFollow
+ * - deleteFollow
+ * - getNotification
+ * - readNotification
+ * - notify
  */
 var Follow = require('../models/followModel.js');
 var Notification = require('../models/notificationModel.js');
@@ -130,6 +136,9 @@ exports.getNotification = function(req,res){
 		res.send('{"status" : "ko", "msg" : "No id of user given"}');
 };
 
+/*
+ * modify the notification to put the fact that it have been read
+ */
 exports.readNotification = function(req,res){
 	if(req.params.iduser)
 	{
@@ -151,6 +160,9 @@ exports.readNotification = function(req,res){
 		res.send('{"status" : "ko", "msg" : "No id of user given"}');
 };
 
+/*
+ * create all the notification for all the follow which match
+ */
 exports.notify = function (map, id){
 	
 	var lat = map.latitude;
@@ -160,16 +172,10 @@ exports.notify = function (map, id){
 	query.where("rLatmin").lte(lat);
 	query.where("rLatmax").gte(lat);
 		
-	/*if(long > 0)
-	{*/
-		query.where("rLngmin").lte(long);
-		query.where("rLngmax").gte(long);
-	/*}
-	else
-	{
-		query.where("rLngmin").gte(long);
-		query.where("rLngmax").lte(long);
-	}*/
+
+	query.where("rLngmin").lte(long);
+	query.where("rLngmax").gte(long);
+
 	
 	query.find(function(err, resquery){
 		if(err){console.log("erreur "+err);}

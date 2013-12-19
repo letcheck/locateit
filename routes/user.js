@@ -1,10 +1,12 @@
 
 /*
- * GET users listing.
+ * All the api function for the users
  */
 var User = require('../models/userModel.js');
 var crypto = require('crypto');
-
+/*
+ * send all the users wanted (get parameters)
+ */
 exports.list = function(req, res){
   	//res.send("respond with a resource");
   	if(req.query.id != null && req.query.id != "undefined")
@@ -38,10 +40,10 @@ exports.list = function(req, res){
   	
 };
 
-
+/*
+ * add a user OR send back is userid if it already exist
+ */
 exports.add = function(req, res){
-	
-	//console.log(req.body.name);
 	
 	var id = createId(req.body.email);//req.body.email
 	res.send('{"status" : "ok", "id" : "'+id+'"}');
@@ -58,7 +60,7 @@ exports.add = function(req, res){
 };
 
 exports.deleteUser = function(req, res){
-	res.send("respond with a resource");
+	//NOT IMPLEMENTED YET
 };
 
 exports.updateUser = function(req, res){
@@ -86,7 +88,9 @@ exports.updateUser = function(req, res){
 	else
 		res.send('{"status" : "ko", "msg" : "No id of user given"}');
 };
-
+/*
+ * find a user thanks to a userid
+ */
 exports.findById = function (id, fct){
 	var query = User.find({userid: ""+id});
 	query.exec(function (err, res) {
@@ -115,6 +119,9 @@ exports.findByMongoId = function (id, fct){
 	});
 };
 
+/*
+ * the userid is just an hash of the email using the md5 function
+ */
 function createId(email){
 	return crypto.createHash('md5').update(email).digest('hex');
 }
