@@ -1,3 +1,6 @@
+/*
+ * all the js code for the page handling the follow places
+ */
 var map;
 var geocoder;
 var marker = null;
@@ -46,7 +49,9 @@ function initialize() {
 
 }
 
-//Add a marker to the map and push to the array.
+/*
+ * Add a marker to the map and push to the array.
+ */
 function addMarker(location) {
 	if(marker == null)
 	{
@@ -59,7 +64,9 @@ function addMarker(location) {
 		marker.setPosition(location);
 }
 
-
+/*
+ * geolocate the browser
+ */
 function locate()
 {
 	// Try HTML5 geolocation
@@ -84,6 +91,9 @@ function locate()
     }
 }
 
+/*
+ * call the reversegeocoding google map api and center the map on that place
+ */
 function codeAddress() {
 	  var address = document.getElementById('address').value;
 	  geocoder.geocode( { 'address': address}, function(results, status) {
@@ -116,6 +126,9 @@ $(document).ready(function(){
 	markFollowedPlaces();
 });
 
+/*
+ * ajax request to put a follow place
+ */
 function follow(){
 	if(marker != null && $("#radius").val() > 0) {
 		$.ajax({
@@ -130,6 +143,9 @@ function follow(){
 	}
 }
 
+/*
+ * change the radius view on the map
+ */
 function changeRadius() {
 	if(marker != null) {
 		if(circle == null) {
@@ -149,6 +165,9 @@ function getWindowContent(id){
 	return '<button class="btn btn-primary" type="button" onclick="unfollow(\'' + id + '\')">unfollow</button>';
 }
 
+/*
+ * ajax request to get all the follow place and put them on the map
+ */
 function markFollowedPlaces(){
 	$.ajax({
 		type: "GET",
@@ -181,6 +200,9 @@ function markFollowedPlaces(){
 		});
 }
 
+/*
+ * ajax request to unfollow a place
+ */
 function unfollow(id){
 	$.ajax({
 		type: 'DELETE',

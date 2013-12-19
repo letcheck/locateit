@@ -1,3 +1,6 @@
+/*
+ * all the function needed to the sidebar and the notifications
+ */
 var showSidebar = true;
 var sidebarHtmltop = '<div class="sidebar">'+
 	'<div class="list-group">'+
@@ -53,6 +56,9 @@ var toggleSidebar = function()
 	
 };
 
+/*
+ * get the place follow and notifications
+ */
 function getData(callback)
 {
 	$.ajax({
@@ -78,6 +84,9 @@ function getData(callback)
 			});
 }
 
+/*
+ * parse the center of the sidebar = all the data
+ */
 function parseCenter(data, nots, callback)
 {
 	if(data != null && data.length > 0)
@@ -101,6 +110,9 @@ function parseCenter(data, nots, callback)
 		callback("","");
 }
 
+/*
+ * parse the notification part of the sidebar
+ */
 function parseNot(data, callback)
 {
 	if(data != null && data.length > 0)
@@ -126,6 +138,9 @@ function parseNot(data, callback)
 		callback("","");
 }
 
+/*
+ * ajax request to get a summary of the text in the content
+ */
 function getSummary(id, callback)
 {
 	$.ajax({
@@ -148,6 +163,7 @@ function getSummary(id, callback)
 			});
 	
 }
+
 function inverseGeocoding(lat, long , callback)
 {
 	var latlng = new google.maps.LatLng(lat, long);

@@ -1,6 +1,6 @@
 /*
  * Map.js 
- * all the function for the map
+ * all the function for the map for the main page
  */
 
 var map;
@@ -82,6 +82,9 @@ function addMarkers()
 	
 }
 
+/*
+ * ajax request to get the name of the user link to his id
+ */
 function requestUser(id, callback)
 {
 	$.ajax({
@@ -149,6 +152,9 @@ function addMarker( lat, long, data, name)
 
 }
 
+/*
+ * handle the fact that only one infowindow should be open
+ */
 function onlyOneInfoWindow(marker, infowindow)
 {
 	if(openmarker != null )
@@ -171,6 +177,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 window.addEventListener('resize', resizeMap, false);
 
+/*
+ * resize the map to fit the screen
+ */
 function resizeMap()
 {
 	var sizeMap = window.innerHeight-50;
@@ -179,6 +188,9 @@ function resizeMap()
     $("#map-canvas").css("height", sizeMap);
 }
 
+/*
+ * ajax request to rate a media
+ */
 function rate(val, id)
 {
 	$.ajax({

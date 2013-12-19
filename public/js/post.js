@@ -1,3 +1,6 @@
+/*
+ * js functions for the post content page
+ */
 var map;
 var geocoder;
 var marker = null;
@@ -57,7 +60,9 @@ function addMarker(location) {
 		marker.setPosition(location);
 }
 
-
+/*
+ * locate the browser and center the map onit
+ */
 function locate()
 {
 	// Try HTML5 geolocation
@@ -81,6 +86,9 @@ function locate()
     }
 }
 
+/*
+ * reverse geocoding 
+ */
 function codeAddress() {
 	  var address = document.getElementById('address').value;
 	  geocoder.geocode( { 'address': address}, function(results, status) {
@@ -101,7 +109,7 @@ function codeAddress() {
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
-/**
+/*
  * to have a nice file input which look like boostrap
  */
 $(document)
